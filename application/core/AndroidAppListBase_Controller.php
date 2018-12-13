@@ -53,7 +53,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 			return;
 		}
 
-		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$distrib_id}/".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk";
+		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$distrib_id}/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" );
 		if( !file_exists( $filepath ) ) {
 			show_error( "HTTP 404: apkファイルが見つかりません", 404, "Error" );
 			return;
@@ -98,7 +98,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 			$new_distrib_id = intval( $this->appdatalist->get_latest_ditrib_id( static::PLATFORM, static::ENVIRONMENT ) ) + 1;
 			$upload_dest_path = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$new_distrib_id}";
 			if( !is_dir( $upload_dest_path ) && !mkdir( $upload_dest_path, 0755, true ) ||
-				!move_uploaded_file( $_FILES['apk_file']['tmp_name'], $upload_dest_path."/".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" ) ) {
+				!move_uploaded_file( $_FILES['apk_file']['tmp_name'], $upload_dest_path."/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" ) ) ) {
 				$res['error'] = true;
 				$res['message'] = "エラー: apkファイルのアップロードに失敗しました。";
 			}

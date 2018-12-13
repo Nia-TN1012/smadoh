@@ -50,7 +50,7 @@ class RestiOSAppListBase_Controller extends RestAppListBase_Controller {
 			$new_distrib_id = intval( $this->appdatalist->get_latest_ditrib_id( static::PLATFORM, static::ENVIRONMENT ) ) + 1;
             $upload_dest_path = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$new_distrib_id}";
 			if( !is_dir( $upload_dest_path ) && !mkdir( $upload_dest_path, 0755, true ) ||
-				!move_uploaded_file( $_FILES['ipa_file']['tmp_name'], $upload_dest_path."/".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_ipa_name' ).".ipa" ) ) {
+				!move_uploaded_file( $_FILES['ipa_file']['tmp_name'], $upload_dest_path."/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_ipa_name' ).".ipa" ) ) ) {
                     $res['status_code'] = 500;
                     $res['response'] = "Error: Failed to upload ipa file.";
 			}

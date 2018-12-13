@@ -51,7 +51,7 @@ class RestAndroidAppListBase_Controller extends MY_Controller {
             $upload_dest_path = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$new_distrib_id}";
             $app_ver = $header['app_ver'];
 			if( !is_dir( $upload_dest_path ) && !mkdir( $upload_dest_path, 0755, true ) ||
-				!move_uploaded_file( $_FILES['apk_file']['tmp_name'], $upload_dest_path."/".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" ) ) {
+				!move_uploaded_file( $_FILES['apk_file']['tmp_name'], $upload_dest_path."/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" ) ) ) {
 				$res['status_code'] = 500;
 				$res['response'] = "Error: Failed to upload apk file.";
 			}
