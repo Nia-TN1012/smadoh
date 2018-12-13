@@ -39,7 +39,7 @@ class UserTokenModel extends CI_Model {
 	}
     
     public function create_token( $user_id ) {
-        $new_token = sha1( OAuthProvider::generateToken( 32, true ) );
+        $new_token = bin2hex( OAuthProvider::generateToken( 32, true ) );
         $gen_date = date( "Y-m-d H:i:s" );
         $expire_date = ( new DateTime( $gen_date ) )->add( new DateInterval( "P12M" ) )->format( "Y-m-d H:i:s" );
 
