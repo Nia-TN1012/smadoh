@@ -98,7 +98,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> アップロード</button>
+                    <button type="submit" id="upload_btn" class="btn btn-primary"><i id="upload_btn_icon" class="fas fa-upload"></i> <span id="upload_btn_text">アップロード</span></button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-times-circle"></i> 閉じる</button>
 				</div>
 			</form>
@@ -111,7 +111,9 @@
 		<?php if( UserModel::is_manager() ): ?>
 		$( '#uploadform' ).submit( function( e ) {
             e.preventDefault();
-            var url = "<?= base_url() ?>";
+            $( '#upload_btn' ).prop( 'disabled', true );
+			$( '#upload_btn_icon' ).removeClass( "fa-upload" ).addClass( "fa-spinner fa-spin" );
+			$( '#upload_btn_text' ).text( "アップロード中" );
 			var formData = new FormData();
 			formData.append( 'cert_file', $( '#upload_cert_path' ).prop( 'files' )[0] );
 			formData.append( 'target_type', $( '#target_type' ).val() );
@@ -119,38 +121,43 @@
             
             $.ajax({
                 type: "POST",
-                url: url + "apps/uwp/manage-certificate/upload-cert",
+                url: "<?= site_url( "apps/uwp/manage-certificate/upload-cert" ) ?>",
                 dataType: "json",
                 data: formData,
 				processData: false,
-				contentType: false,
-                success: function( response ){
-					alert( response.message );
-                    if( !response.error ) {
-                        window.location.reload();
-                    }
+				contentType: false
+            }).done( function( response ){
+                alert( response.message );
+                if( !response.error ) {
+                    window.location.reload( true );
                 }
-            });
+            }).fail( function( response ) {
+                alert( "エラー: 証明書ファイルのアップロードに失敗しました。" );
+            }).always( function() {
+				$( '#upload_btn_text' ).text( "アップロード" );
+				$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-upload" );
+				$( '#upload_btn' ).prop( 'disabled', false );
+			});
         });
 
         $( '[id ^= disable_cert_]' ).on( 'click', function() {
-            var type_key = $( this ).attr( 'id' ).replace( "disable_cert_", "" )
+            var type_key = $( this ).attr( 'id' ).replace( "disable_cert_", "" );
             if( confirm( "選択したサイドロード用証明書を無効化してよろしいですか？\n（※再度有効にしたい時は、新しい証明書をアップロードします。）" ) ) {
-                var url = "<?= base_url(); ?>";
                 $.ajax({
                     type: "POST",
-                    url: url + "apps/uwp/manage-certificate/disable-cert",
+                    url: "<?= site_url( "apps/uwp/manage-certificate/disable-cert" ) ?>",
                     dataType: "json",
                     data: { 
                         type_key: type_key
-                    },
-                    success: function( response ){
-                        alert( response.message );
-                        if( !response.error ) {
-                            window.location.reload( true );
-                        }
                     }
-                });
+                }).done( function( response ){
+					alert( response.message );
+					if( !response.error ) {
+						window.location.reload( true );
+					}
+				}).fail( function( response ) {
+					alert( "エラー: 選択したサイドロード用証明書の無効化に失敗しました。" );
+				});
             }
         });
 		<?php endif ?>

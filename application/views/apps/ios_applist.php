@@ -154,7 +154,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> アップロード</button>
+					<button type="submit" id="upload_btn" class="btn btn-primary"><i id="upload_btn_icon" class="fas fa-upload"></i> <span id="upload_btn_text">アップロード</span></button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-times-circle"></i> 閉じる</button>
 				</div>
 			</form>
@@ -162,7 +162,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="<?=base_url()?>js/qrcode/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="<?= site_url( "js/qrcode/jquery.qrcode.min.js" ) ?>"></script>
 <script>
 	function copyToClipboard() {
 		var copyTarget = document.getElementById( "thisPageURL" );
@@ -170,12 +170,16 @@
 		document.execCommand( "Copy" );
 	}
 
-	$( document).ready( function() {
+	$( document ).ready( function() {
 		$( '#qrcode' ).qrcode( { width: 120, height: 120, text: "<?= site_url( "apps/{$platform}/{$environment}" ) ?>" } );
 
 		<?php if( UserModel::is_manager() ): ?>
+
 		$( '#uploadform' ).submit( function( e ) {
             e.preventDefault();
+			$( '#upload_btn' ).prop( 'disabled', true );
+			$( '#upload_btn_icon' ).removeClass( "fa-upload" ).addClass( "fa-spinner fa-spin" );
+			$( '#upload_btn_text' ).text( "アップロード中" );
 			var formData = new FormData();
 			formData.append( 'ipa_file', $( '#upload_ipa_path' ).prop( 'files' )[0] );
 			formData.append( 'app_version', $( '#upload_app_ver' ).val() );
@@ -185,14 +189,19 @@
                 dataType: "json",
                 data: formData,
 				processData: false,
-				contentType: false,
-                success: function( response ){
-					alert( response.message );
-                    if( !response.error ) {
-                        window.location.reload();
-                    }
-                }
-            });
+				contentType: false
+            }).done( function( response ) {
+				alert( response.message );
+				if( !response.error ) {
+					window.location.reload();
+				}
+            }).fail( function( response ) {
+				alert( "エラー: ipaファイルのアップロードに失敗しました。" );
+			}).always( function() {
+				$( '#upload_btn_text' ).text( "アップロード" );
+				$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-upload" );
+				$( '#upload_btn' ).prop( 'disabled', false );
+			});
         });
 
 		$( '[id ^= delete_ipa_]' ).on( 'click', function() {
@@ -204,14 +213,15 @@
                     dataType: "json",
                     data: { 
                         id: dstid
-                    },
-                    success: function( response ){
-                        alert( response.message );
-                        if( !response.error ) {
-                            window.location.reload( true );
-                        }
                     }
-                });
+                }).done( function( response ){
+					alert( response.message );
+					if( !response.error ) {
+						window.location.reload( true );
+					}
+				}).fail( function( response ) {
+					alert( "エラー: 配布ID: #" + dstid + " の削除に失敗しました。" );
+				});
             }
         });
 		<?php endif ?>
