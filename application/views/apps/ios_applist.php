@@ -61,7 +61,7 @@
 					<td><a href="<?= $row['ota_plist_link'] ?>" download><i class="fas fa-plane"></i> Over-The-Airインストール</a></td>
 					<td><?= h( $row['upload_time'] ) ?></td>
 					<?php if( UserModel::is_manager() ): ?>
-					<td><button type="button" class="btn btn-danger" id="delete_ipa_<?= h( $row['distrib_id'] ) ?>"><i class="fas fa-trash-alt"></i></button></td>
+					<td><button type="button" class="btn btn-danger" id="delete_ipa_<?= h( $row['distrib_id'] ) ?>"><i id="delete_icon_<?= h( $row['distrib_id'] ) ?>" class="fas fa-trash-alt"></i></button></td>
 					<?php endif ?>
 				</tr>
 				<?php endforeach ?>
@@ -205,7 +205,9 @@
         });
 
 		$( '[id ^= delete_ipa_]' ).on( 'click', function() {
-            var dstid = $( this ).attr( 'id' ).replace( "delete_ipa_", "" )
+            var dstid = $( this ).attr( 'id' ).replace( "delete_ipa_", "" );
+			$( this ).prop( 'disabled', true );
+			$( '#delete_icon_' + dstid ).removeClass( "fa-trash-alt" ).addClass( "fa-spinner fa-spin" );
             if( confirm( "配布ID: #" + dstid + " をビルド一覧から削除してよろしいですか？" ) ) {
                 $.ajax({
                     type: "POST",
@@ -221,7 +223,14 @@
 					}
 				}).fail( function( response ) {
 					alert( "エラー: 配布ID: #" + dstid + " の削除に失敗しました。" );
-				});
+				}).always( function() {
+                    $( '#delete_icon_' + dstid ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-trash-alt" );
+                    $( '#delete_ipa_' + dstid ).prop( 'disabled', false );
+                });
+            }
+            else {
+                $( '#delete_icon_' + dstid ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-trash-alt" );
+                $( '#delete_ipa_' + dstid ).prop( 'disabled', false );
             }
         });
 		<?php endif ?>

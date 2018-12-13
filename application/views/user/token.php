@@ -5,7 +5,7 @@
     <br class="container mt-5" />
     <h2><i class="fas fa-list"></i> APIトークン一覧</h2>
     <div class="float-right">
-        <button type="button" class="m-1 btn btn-primary" id="create_token"><i class="fas fa-plus"></i> 新しいトークン作成</button>
+        <button type="button" class="m-1 btn btn-primary" id="create_token"><i id="create_token_btn_icon" class="fas fa-plus"></i> <span id="create_token_btn_text">新しいトークン作成<span></button>
     </div>
     <table class="table table-hover shadow-sm">
         <thead>
@@ -35,7 +35,7 @@
                     } ?>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger" id="delete_<?= h( $row['token'] ) ?>"><i class="fas fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" id="delete_btn_<?= h( $row['token'] ) ?>"><i id="delete_icon_<?= h( $row['token'] ) ?>" class="fas fa-trash-alt"></i></button>
                 </td>
             <?php endforeach ?>
             </tr>
@@ -189,22 +189,32 @@
 <script type="text/javascript">
     $( document).ready( function() {
         $( '#create_token' ).on( 'click', function() {
+            $( '#create_token' ).prop( 'disabled', true );
+			$( '#create_token_btn_icon' ).removeClass( "fa-plus" ).addClass( "fa-spinner fa-spin" );
+			$( '#create_token_btn_text' ).text( "新しいトークンを作成中" );
             $.ajax({
                 type: "POST",
                 url: "<?= site_url( "user/token/create" ) ?>",
-                dataType: "json",
-                success: function( response ){
-                    alert( response.message );
-                    if( !response.error ) {
-                        window.location.reload( true );
-                    }
+                dataType: "json"
+            }).done( function( response ){
+                alert( response.message );
+                if( !response.error ) {
+                    window.location.reload( true );
                 }
+            }).fail( function( response ) {
+				alert( "エラー: 新しいトークンの作成に失敗しました。" );
+            }).always( function() {
+                $( '#create_token_btn_text' ).text( "新しいトークン作成" );
+				$( '#create_token_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-plus" );
+				$( '#create_token' ).prop( 'disabled', false );
             });
         });
 
         // 削除ボタン
-        $( '[id ^= delete_]' ).on( 'click', function() {
-            var selected_token = $( this ).attr( 'id' ).replace( "delete_", "" );
+        $( '[id ^= delete_btn_]' ).on( 'click', function() {
+            var selected_token = $( this ).attr( 'id' ).replace( "delete_btn_", "" );
+            $( this ).prop( 'disabled', true );
+			$( '#delete_icon_' + selected_token ).removeClass( "fa-trash-alt" ).addClass( "fa-spinner fa-spin" );
             if( confirm( "トークンを削除してよろしいですか？" ) ) {
                 $.ajax({
                     type: "POST",
@@ -212,14 +222,22 @@
                     dataType: "json",
                     data: { 
                         token: selected_token
-                    },
-                    success: function( response ){
-                        alert( response.message );
-                        if( !response.error ) {
-                            window.location.reload( true );
-                        }
                     }
+                }).done( function( response ) {
+                    alert( response.message );
+                    if( !response.error ) {
+                        window.location.reload( true );
+                    }
+                }).fail( function( response ) {
+					alert( "エラー: トークンの削除に失敗しました。" );
+                }).always( function() {
+                    $( '#delete_icon_' + selected_token ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-trash-alt" );
+                    $( '#delete_btn_' + selected_token ).prop( 'disabled', false );
                 });
+            }
+            else {
+                $( '#delete_icon_' + selected_token ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-trash-alt" );
+                $( '#delete_btn_' + selected_token ).prop( 'disabled', false );
             }
         });
     });

@@ -50,7 +50,7 @@
                 <?php if( UserModel::is_admin() ): ?>
                 <td>
                     <?php if( $row['id'] != $_SESSION['login_user_data']['id'] ): ?>
-                    <button type="button" class="btn btn-sm btn-danger" name="<?= $row['display_user_name'] ?>" id="remove_<?= $row['id'] ?>"><i class="fas fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" name="<?= $row['display_user_name'] ?>" id="remove_btn_<?= $row['id'] ?>"><i id="remove_icon_<?= $row['id'] ?>" class="fas fa-trash-alt"></i></button>
                     <?php endif ?>
                 </td>
                 <?php endif ?>
@@ -126,45 +126,68 @@
         <?php if( UserModel::is_admin() ): ?>
         // 権限変更イベント
         $( '[id ^= role_select_]' ).change( function() {
+            var user_id = $( this ).attr( 'id' ).replace( "role_select_", "" );
+            $( this ).prop( 'disabled', true );
+            $( '#remove_btn_' + user_id ).prop( 'disabled', true );
             $.ajax({
                 type: "POST",
                 url: "<?= site_url( "user/set-role" ) ?>",
                 dataType: "json",
                 data: { 
-                    id: $( this ).attr( 'id' ).replace( "role_select_", "" ),
+                    id: user_id,
                     role: $( this ).val()
                 },
-                success: function( response ){
-                    $( '#response_panel' ).html( response.message );
-                    if( response.error ) {
-                        $( '#response_panel' ).removeClass( "alert-success" ).addClass( "alert-danger" ).show();
-                    }
-                    else {
-                        $( '#response_panel' ).removeClass( "alert-danger" ).addClass( "alert-success" ).show();
-                    }
-                    window.setTimeout( function() { $( '#response_panel' ).hide(); }, 5000 );
+            }).done( function( response ) {
+                $( '#response_panel' ).html( response.message );
+                if( response.error ) {
+                    $( '#response_panel' ).removeClass( "alert-success" ).addClass( "alert-danger" ).show();
                 }
+                else {
+                    $( '#response_panel' ).removeClass( "alert-danger" ).addClass( "alert-success" ).show();
+                }
+                window.setTimeout( function() { $( '#response_panel' ).hide(); }, 5000 );
+            }).fail( function( response ) {
+                $( '#response_panel' ).html( "エラー: ユーザーの権限変更に失敗しました。" );
+                $( '#response_panel' ).removeClass( "alert-success" ).addClass( "alert-danger" ).show();
+                window.setTimeout( function() { $( '#response_panel' ).hide(); }, 5000 );
+            }).always( function() {
+                $( '#remove_btn_' + user_id ).prop( 'disabled', false );
+                $( '#role_select_' + user_id ).prop( 'disabled', false );
             });
         });
 
         // 削除ボタン
-        $( '[id ^= remove_]' ).on( 'click', function() {
-            var user_name = $( this ).attr( 'name' ).replace( "remove_", "" );
+        $( '[id ^= remove_btn_]' ).on( 'click', function() {
+            var user_id = $( this ).attr( 'id' ).replace( "remove_btn_", "" );
+            var user_name = $( this ).attr( 'name' );
+            $( this ).prop( 'disabled', true );
+            $( '#role_select_' + user_id ).prop( 'disabled', true );
+			$( '#remove_icon_' + user_id ).removeClass( "fa-trash-alt" ).addClass( "fa-spinner fa-spin" );
             if( confirm( "ユーザー: '" + user_name + "'を削除してよろしいですか？" ) ) {
                 $.ajax({
                     type: "POST",
                     url: "<?= site_url( "user/remove" ) ?>",
                     dataType: "json",
                     data: { 
-                        id: $( this ).attr( 'id' ).replace( "remove_", "" )
-                    },
-                    success: function( response ){
-                        alert( response.message );
-                        if( !response.error ) {
-                            window.location.reload( true );
-                        }
+                        id: user_id
                     }
+                }).done( function( response ){
+                    alert( response.message );
+                    if( !response.error ) {
+                        window.location.reload( true );
+                    }
+                }).fail( function( response ) {
+					alert( "エラー: ユーザー: '" + user_name + "' の削除に失敗しました。" );
+				}).always( function() {
+                    $( '#remove_icon_' + user_id ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-trash-alt" );
+                    $( '#role_select_' + user_id ).prop( 'disabled', false );
+                    $( '#remove_btn_' + user_id ).prop( 'disabled', false );
                 });
+            }
+            else {
+                $( '#remove_icon_' + user_id ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-trash-alt" );
+                $( '#role_select_' + user_id ).prop( 'disabled', false );
+                $( '#remove_btn_' + user_id ).prop( 'disabled', false );
             }
         });
         <?php endif ?>

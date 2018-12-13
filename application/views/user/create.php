@@ -57,7 +57,7 @@
                 </div>
                 <br class="container mt-5" />
                 <div>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> ユーザー作成</button>
+                    <button type="submit" id="submit_btn" class="btn btn-primary"><i id="submit_btn_icon" class="fas fa-user-plus"></i> <span id="submit_btn_text">ユーザー作成</span></button>
                     <button type="button" class="btn btn-secondary" onClick="window.location.href='/user/manage'"><i class="fas fa-undo-alt"></i> 戻る</button>
                 </div>
             </form>
@@ -125,6 +125,9 @@
         
         $( '#createform' ).submit( function( e ) {
             e.preventDefault();
+            $( '#submit_btn' ).prop( 'disabled', true );
+			$( '#submit_btn_icon' ).removeClass( "fa-user-plus" ).addClass( "fa-spinner fa-spin" );
+			$( '#submit_btn_text' ).text( "ユーザー作成中" );
             $.ajax({
                 type: "POST",
                 url: "<?= site_url( "user/create" ) ?>",
@@ -136,17 +139,23 @@
                     user_pass_cfm: $( '#login_user_pass_cfm' ).val(),
                     role: $( '#role' ).val(),
                     email: $( '#email' ).val()
-                },
-                success: function( response ){
-                    if( response.error ) {
-                        $( '#error_panel' ).show();
-                        $( '#error_panel' ).html( response.message );
-                    }
-                    else {
-                        $( '#error_panel' ).hide();
-                        window.location.href = "<?= site_url( "user/manage" ) ?>";
-                    }
                 }
+            }).done( function( response ) {
+                if( response.error ) {
+                    $( '#error_panel' ).show();
+                    $( '#error_panel' ).html( response.message );
+                }
+                else {
+                    $( '#error_panel' ).hide();
+                    window.location.href = "<?= site_url( "user/manage" ) ?>";
+                }
+            }).fail( function( response ) {
+                $( '#error_panel' ).show();
+                $( '#error_panel' ).html( "エラー: ユーザーの作成に失敗しました。" );
+            }).always( function() {
+                $( '#submit_btn_text' ).text( "ユーザー作成" );
+				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-plus" );
+				$( '#submit_btn' ).prop( 'disabled', false );
             });
         });
     });

@@ -45,7 +45,7 @@
                 </td>
                 <td>
                     <?php if( $row['status'] == UWPCertModel::UWP_CERT_AVAILABLE ): ?>
-                    <button type="button" class="btn btn-sm btn-danger" id="disable_cert_<?= h( $row['type_key'] ) ?>"><i class="fas fa-ban"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" id="disable_cert_<?= h( $row['type_key'] ) ?>"><i id="disable_icon_<?= h( $row['type_key'] ) ?>" class="fas fa-ban"></i></button>
                     <?php endif ?>
                 </td>
             <?php endforeach ?>
@@ -142,6 +142,8 @@
 
         $( '[id ^= disable_cert_]' ).on( 'click', function() {
             var type_key = $( this ).attr( 'id' ).replace( "disable_cert_", "" );
+            $( this ).prop( 'disabled', true );
+			$( '#disable_icon_' + type_key ).removeClass( "fa-ban" ).addClass( "fa-spinner fa-spin" );
             if( confirm( "選択したサイドロード用証明書を無効化してよろしいですか？\n（※再度有効にしたい時は、新しい証明書をアップロードします。）" ) ) {
                 $.ajax({
                     type: "POST",
@@ -157,7 +159,14 @@
 					}
 				}).fail( function( response ) {
 					alert( "エラー: 選択したサイドロード用証明書の無効化に失敗しました。" );
-				});
+				}).always( function() {
+                    $( '#disable_icon_' + type_key ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-ban" );
+                    $( '#disable_cert_' + type_key ).prop( 'disabled', false );
+                });
+            }
+            else {
+                $( '#disable_icon_' + type_key ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-ban" );
+                $( '#disable_cert_' + type_key ).prop( 'disabled', false );
             }
         });
 		<?php endif ?>

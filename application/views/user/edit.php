@@ -55,7 +55,7 @@
                         </div>
                         <br class="container mt-5" />
                         <div>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-user-check"></i> 更新</button>
+                            <button type="submit" id="submit_btn" class="btn btn-primary"><i id="submit_btn_icon" class="fas fa-user-check"></i> <span id="submit_btn_text">ユーザーデータ更新</span></button>
                             <button type="button" class="btn btn-secondary" onClick="window.location.href='/user/manage'"><i class="fas fa-undo-alt"></i> 戻る</button>
                         </div>
                     </form>
@@ -88,6 +88,9 @@
     $( document).ready( function() {
         $( '#updateform' ).submit( function( e ) {
             e.preventDefault();
+            $( '#submit_btn' ).prop( 'disabled', true );
+			$( '#submit_btn_icon' ).removeClass( "fa-user-check" ).addClass( "fa-spinner fa-spin" );
+			$( '#submit_btn_text' ).text( "ユーザーデータ更新中" );
             $.ajax({
                 type: "POST",
                 url: "<?= site_url( "user/update" ) ?>",
@@ -99,17 +102,23 @@
                     new_user_pass: $( '#new_login_pass' ).val(),
                     new_user_pass_cfm: $( '#new_login_pass_cfm' ).val(),
                     email: $( '#email' ).val()
-                },
-                success: function( response ){
-                    if( response.error ) {
-                        $( '#error_panel' ).show();
-                        $( '#error_panel' ).html( response.message );
-                    }
-                    else {
-                        $( '#error_panel' ).hide();
-                        window.location.href = "<?= site_url( "user/manage" ) ?>";
-                    }
                 }
+            }).done( function( response ){
+                if( response.error ) {
+                    $( '#error_panel' ).show();
+                    $( '#error_panel' ).html( response.message );
+                }
+                else {
+                    $( '#error_panel' ).hide();
+                    window.location.href = "<?= site_url( "user/manage" ) ?>";
+                }
+            }).fail( function( response ) {
+                $( '#error_panel' ).show();
+                $( '#error_panel' ).html( "エラー: ユーザーデータの更新に失敗しました。" );
+            }).always( function() {
+                $( '#submit_btn_text' ).text( "ユーザーデータ更新" );
+				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-check" );
+				$( '#submit_btn' ).prop( 'disabled', false );
             });
         });
 

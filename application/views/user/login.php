@@ -16,7 +16,7 @@
             </div>
 
             <div>
-                <button type="submit" class="btn btn-primary">ログイン <i class="fas fa-sign-in-alt"></i></button>
+                <button type="submit" id="submit_btn" class="btn btn-primary"><span id="submit_btn_text">ログイン</span> <i id="submit_btn_icon" class="fas fa-sign-in-alt"></i></button>
             </div>
         </form>
 	</div>
@@ -26,6 +26,9 @@
     $( document).ready( function() {
         $( '#loginform' ).submit( function( e ) {
             e.preventDefault();
+            $( '#submit_btn' ).prop( 'disabled', true );
+			$( '#submit_btn_icon' ).removeClass( "fa-sign-in-alt" ).addClass( "fa-spinner fa-spin" );
+			$( '#submit_btn_text' ).text( "ログイン中" );
             $.ajax({
                 type: "POST",
                 url: "<?= site_url( "login/signin" ) ?>",
@@ -33,18 +36,24 @@
                 data: { 
                     user_id: $( '#login_user_id' ).val(),
                     user_pass: $( '#login_user_pass' ).val(),
-                },
-                success: function( response ){
-                    if( response.error ) {
-                        $( '#errorpanel' ).show();
-                        $( '#errorpanel' ).html( response.message );
-                    }
-                    else {
-                        $( '#errorpanel' ).hide();
-                        window.location.href = "<?= site_url( @$_GET['redirect'] ?: "" ) ?>";
-                    }
                 }
-            });
+            }).done( function( response ) {
+                if( response.error ) {
+                    $( '#errorpanel' ).show();
+                    $( '#errorpanel' ).html( response.message );
+                }
+                else {
+                    $( '#errorpanel' ).hide();
+                    window.location.href = "<?= site_url( @$_GET['redirect'] ?: "" ) ?>";
+                }
+            }).fail( function( response ) {
+                $( '#errorpanel' ).show();
+                $( '#errorpanel' ).html( "エラー: ログインに失敗しました。" );
+            }).always( function() {
+				$( '#submit_btn_text' ).text( "ログイン" );
+				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-check" );
+				$( '#submit_btn' ).prop( 'disabled', false );
+			});
         });
 
         $( '#errorpanel' ).hide();
