@@ -19,7 +19,7 @@ abstract class AppListBase_Controller extends MY_Controller {
 	 * インデックスページ
 	 */
     public function index() {
-		if( !$this->config->item( static::PLATFORM.'_use' ) ) {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
 			$this->show_error_404();
 			return;
 		}
