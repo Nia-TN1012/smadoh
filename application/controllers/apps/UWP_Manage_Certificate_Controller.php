@@ -9,6 +9,11 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
     }
     
     public function index() {
+		if( !$this->config->item( 'uwp_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/uwp/manage-certificate" );
 
         if( !UserModel::is_manager() ) {

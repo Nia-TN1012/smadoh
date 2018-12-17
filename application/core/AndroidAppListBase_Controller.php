@@ -54,6 +54,11 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
      * apkファイルをダウンロードします。
      */
     public function download_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		$distrib_id = @$_GET['dstid'] ?: 0;
@@ -84,6 +89,11 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
      * apkファイルをアップロードします。
      */
     public function upload_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		if( !UserModel::is_manager() ) {
@@ -134,6 +144,11 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
      * 指定したビルドを一覧から削除します。
      */
     public function delete_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+		
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
         if( !UserModel::is_manager() ) {

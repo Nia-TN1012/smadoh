@@ -53,6 +53,11 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
 	 * ipaファイルをダウンロードします。
 	 */
 	public function download_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		// パラメータチェック
@@ -85,6 +90,11 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
 	 * （注: iOS端末以外は何も起きません）
 	 */
 	public function download_plist() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		$distrib_id = @$_GET['dstid'] ?: 0;
@@ -115,6 +125,11 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
 	 * ipaファイルをアップロードし、Over-The-Air配信用のplistファイルを出力します。
 	 */
 	public function upload_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		if( !UserModel::is_manager() ) {
@@ -208,6 +223,11 @@ XML;
 	 * アプリリストから項目を削除します。
 	 */
 	public function delete_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+		
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
         if( !UserModel::is_manager() ) {

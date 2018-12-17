@@ -28,6 +28,20 @@ class MY_Controller extends CI_Controller {
 			exit();
 		}
 	}
+
+	/**
+	 * 404エラーページにリダイレクトします。
+	 */
+	protected function show_error_404() {
+		$this->output->set_status_header( "404" );
+        $data['page_title'] = "エラー";
+
+		$this->load->view( 'common/header', $data );
+		$this->load->view( 'common/navigation' );
+
+		$this->load->view( 'errors/html/error_404' );
+		$this->load->view( 'common/footer' );
+	}
 }
 
 require_once dirname( __FILE__ ).DIRECTORY_SEPARATOR.'AppListBase_Controller.php';

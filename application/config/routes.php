@@ -117,9 +117,6 @@ $route['user/token'] = "user/user_token_controller";
 $route['user/token/create'] = "user/user_token_controller/create_token";
 $route['user/token/delete'] = "user/user_token_controller/delete_token";
 
-//$route['setting'] = "setting_controller";
-
-
 // REST API
 $route['api/v1/user/info']['GET'] = "rest/rest_user_controller/info";
 $route['api/v1/user/list']['GET'] = "rest/rest_user_controller/list";

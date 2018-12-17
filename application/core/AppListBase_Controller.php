@@ -19,6 +19,11 @@ abstract class AppListBase_Controller extends MY_Controller {
 	 * インデックスページ
 	 */
     public function index() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		// ログインしていなかったら、ログインページにリダイレクト
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 

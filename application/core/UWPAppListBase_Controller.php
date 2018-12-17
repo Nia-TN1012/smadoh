@@ -17,6 +17,11 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 	 * @note	UWPのみ証明書ファイルの判定があるので、オーバーライドします。
 	 */
     public function index() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		$data_head['page_title'] = $this->config->item( static::PLATFORM."_".static::ENVIRONMENT."_name" );
@@ -92,6 +97,11 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
      * appxbundleファイルをダウンロードします。
      */
     public function download_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		$distrib_id = @$_GET['dstid'] ?: 0;
@@ -122,6 +132,11 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
      * サイドロード用証明書をダウンロードします。
      */
     public function download_cert() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
 		$filepath = "uploads/certificate/".static::PLATFORM."/".static::ENVIRONMENT."/uwp_develop_sideload.cer";
@@ -146,6 +161,11 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
      * appxbundleファイルをアップロードします。
      */
     public function upload_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
         
         if( !UserModel::is_manager() ) {
@@ -196,6 +216,11 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 	 * 指定したビルドを一覧から削除します。
 	 */
 	public function delete_app() {
+		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$this->show_error_404();
+			return;
+		}
+		
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
         
         if( !UserModel::is_manager() ) {
