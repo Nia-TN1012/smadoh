@@ -22,10 +22,17 @@
 						</a>
 					</div>
 					<div class="col">
+						<?php if( strpos( base_url(), "https://" ) === 0 ): ?>
 						<a class="text-primary" href="<?= $latest_app_data['ota_plist_link'] ?>" download>
 							<i class="fas fa-plane fa-5x"></i>
 							<p>Over-The-Air<br/>インストール</p>
 						</a>
+						<?php else: ?>
+						<div class="text-muted" data-toggle="tooltip" data-placement="right" data-html="true" title="<i class='fas fa-exclamation-triangle'></i> HTTPS通信に非対応のため、Over-The-Airインストール機能を利用できません。">
+							<i class="fas fa-plane fa-5x"></i>
+							<p> Over-The-Air<br/>インストール<br/>（<i class="fas fa-ban"></i> 利用不可）</p>
+						</div>
+						<?php endif ?>
 					</div>
 				</div>
 			</div>
@@ -58,7 +65,11 @@
 					<td><?= h( $row['distrib_id'] ) ?></td>
 					<td><?= h( $row['app_version'] ) ?></td>
 					<td><a href="<?= $row['ipa_link'] ?>" download><i class="fab fa-itunes"></i> <?= $this->config->item( $platform.'_'.$environment.'_ipa_name' ) ?>.ipa</a></td>
+					<?php if( strpos( base_url(), "https://" ) === 0 ): ?>
 					<td><a href="<?= $row['ota_plist_link'] ?>" download><i class="fas fa-plane"></i> Over-The-Airインストール</a></td>
+					<?php else: ?>
+					<td class="text-muted" data-toggle="tooltip" data-html="true" title="<i class='fas fa-exclamation-triangle'></i> HTTPS通信に非対応のため、Over-The-Airインストール機能を利用できません。"><i class="fas fa-plane"></i> Over-The-Airインストール（<i class="fas fa-ban"></i> 利用不可）</td>
+					<?php endif?>
 					<td><?= h( $row['upload_time'] ) ?></td>
 					<?php if( UserModel::is_manager() ): ?>
 					<td><button type="button" class="btn btn-danger" id="delete_ipa_<?= h( $row['distrib_id'] ) ?>"><i id="delete_icon_<?= h( $row['distrib_id'] ) ?>" class="fas fa-trash-alt"></i></button></td>
@@ -124,6 +135,7 @@
 			<div class="card-body">
 				<ul>
 					<li>Ad-Hoc形式のiOSアプリをインストールするためには、iOSデバイスのUUIDがプロビジョニングファイルに登録されている必要があります。</li>
+					<li>Over-The-Airインストール機能を利用するには、<?= $this->config->item( 'home_title' ) ?> にHTTPS通信でアクセスできる必要があります。</li>
 				</ul>
 			</div>
 		</div>
@@ -169,6 +181,10 @@
 		copyTarget.select();
 		document.execCommand( "Copy" );
 	}
+
+	$( function () {
+		$( '[data-toggle = "tooltip"]' ).tooltip();
+	})
 
 	$( document ).ready( function() {
 		$( '#qrcode' ).qrcode( { width: 120, height: 120, text: "<?= site_url( "apps/{$platform}/{$environment}" ) ?>" } );

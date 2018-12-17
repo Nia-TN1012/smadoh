@@ -34,14 +34,14 @@
 							<p>サイドロードアプリ用<br/>証明書をインストール</p>
 						</a>
 						<?php else: ?>
-						<div class="text-muted">
-							<i class="far fa-address-card fa-4x"></i>
-							<div class="alert alert-danger">
-								<i class="fas fa-exclamation-triangle"></i> サイドロードアプリ用証明書の有効期限が切れています。
+						<div class="text-muted" data-toggle="tooltip" data-placement="right" data-html="true" title="<i class='fas fa-exclamation-triangle'></i> サイドロードアプリ用<br/>証明書の有効期限が切れています。">
+							<i class="far fa-address-card fa-5x"></i>
+							<p>
+								サイドロードアプリ用<br/>証明書をインストール<br/>（<i class="fas fa-ban"></i> 利用不可）
 								<?php if( UserModel::is_manager() ): ?>
-								<br/><a href="<?= "/apps/{$platform}/manage-certificate" ?>">証明書を更新する</a>
+								<br/><a href="<?= "/apps/{$platform}/manage-certificate" ?>"><i class="fas fa-sync-alt"></i> 証明書を更新する</a>
 								<?php endif ?>
-							</div>
+							</p>
 						</div>
 						<?php endif ?>
 					</div>
@@ -196,6 +196,10 @@
 		copyTarget.select();
 		document.execCommand( "Copy" );
 	}
+
+	$( function () {
+		$( '[data-toggle = "tooltip"]' ).tooltip();
+	})
 
 	$( document ).ready( function() {
 		$( '#qrcode' ).qrcode( { width: 120, height: 120, text: "<?= site_url( "apps/{$platform}/{$environment}" ) ?>" } );
