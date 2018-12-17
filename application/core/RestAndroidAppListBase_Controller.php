@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class RestAndroidAppListBase_Controller extends MY_Controller {
+class RestAndroidAppListBase_Controller extends RestAppListBase_Controller {
 
     const PLATFORM = "android";
 	const ENVIRONMENT = "develop";
