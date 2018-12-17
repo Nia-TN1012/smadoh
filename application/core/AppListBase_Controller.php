@@ -1,10 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * アプリデータリストのベースコントローラー
+ */
 abstract class AppListBase_Controller extends MY_Controller {
 
-    const PLATFORM = "unknown";
-	const ENVIRONMENT = "develop";
+    const PLATFORM = "unknown";			// プラットフォーム
+	const ENVIRONMENT = "unknown";		// 環境
 
 	public function __construct() {
 		parent::__construct();
@@ -12,15 +15,21 @@ abstract class AppListBase_Controller extends MY_Controller {
 		$this->load->model( 'feedmodel' );
     }
 
+	/**
+	 * インデックスページ
+	 */
     public function index() {
 		// ログインしていなかったら、ログインページにリダイレクト
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
+		// タイトル
         $data_head['page_title'] = $this->config->item( static::PLATFORM."_".static::ENVIRONMENT."_name" );
-        $data_body['page_title'] = $data_head['page_title'];
+		$data_body['page_title'] = $data_head['page_title'];
+		
         $data_body['platform'] = static::PLATFORM;
         $data_body['environment'] = static::ENVIRONMENT;
 
+		// アプリデータリストを設定
 		$this->load->library( 'pagination' );
         $config['base_url'] = "/apps/".static::PLATFORM."/".static::ENVIRONMENT;
         $item_num = $this->appdatalist->get_app_list_num( static::PLATFORM, static::ENVIRONMENT );
@@ -40,10 +49,27 @@ abstract class AppListBase_Controller extends MY_Controller {
 		$this->load->view( 'apps/'.static::PLATFORM.'_applist', $data_body );
 		$this->load->view( 'common/footer' );
     }
-    
-    abstract protected function get_app_list( $num, $offset );
-    abstract protected function get_latest_app_data();
-    abstract public function download_app();
+	
+	/**
+	 * アプリデータリストを取得し、View向けに構築します。
+	 */
+	abstract protected function get_app_list( $num, $offset );
+	/**
+	 * 最新のアプリデータを取得し、View向けに構築します。
+	 */
+	abstract protected function get_latest_app_data();
+	/**
+	 * アプリパッケージをダウンロードします。
+	 */
+	abstract public function download_app();
+	/**
+	 * アプリパッケージをアップロードします。
+	 */
+	abstract public function upload_app();
+	/**
+	 * 指定したビルドを一覧から削除します。
+	 */
+	abstract public function delete_app();
 }
 
 ?>

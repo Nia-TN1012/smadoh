@@ -6,8 +6,8 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
     const PLATFORM = "ios";
     const ENVIRONMENT = "develop";
     
-    /**
-	 * アプリリストを取得し、ビュー向けに加工します。
+	/**
+	 * アプリデータリストを取得し、View向けに構築します。
 	 */
 	protected function get_app_list( $num, $offset )
 	{
@@ -26,6 +26,9 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
 		return $app_view_list;
 	}
 
+	/**
+	 * 最新のアプリデータを取得し、View向けに構築します。
+	 */
 	protected function get_latest_app_data()
 	{
 		$app_list = $this->appdatalist->get_app_data_list( static::PLATFORM, static::ENVIRONMENT, 1, 0 );

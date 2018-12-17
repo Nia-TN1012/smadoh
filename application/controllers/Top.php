@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * トップページ用
+ */
 class Top extends MY_Controller {
 	
 	public function __construct() {

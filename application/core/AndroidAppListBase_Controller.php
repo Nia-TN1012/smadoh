@@ -1,11 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Androidのアプリデータリストのベースコントローラー
+ */
 class AndroidAppListBase_Controller extends AppListBase_Controller {
 
     const PLATFORM = "android";
     const ENVIRONMENT = "develop";
 
+	/**
+	 * アプリデータリストを取得し、View向けに構築します。
+	 */
     protected function get_app_list( $num, $offset )
 	{
 		$app_list = $this->appdatalist->get_app_data_list( static::PLATFORM, static::ENVIRONMENT, $num, $offset );
@@ -22,6 +28,9 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 		return $app_view_list;
 	}
 
+	/**
+	 * 最新のアプリデータを取得し、View向けに構築します。
+	 */
 	protected function get_latest_app_data()
 	{
 		$app_list = $this->appdatalist->get_app_data_list( static::PLATFORM, static::ENVIRONMENT, 1, 0 );

@@ -48,7 +48,7 @@ class User_Token_Controller extends MY_Controller {
     public function create_token() {
         $this->redirect_if_not_login( "user/token" );
 
-        if( $this->usertokenmodel->can_create_token( $_SESSION['login_user_data']['user_id'] ) < 3 ) {
+        if( $this->usertokenmodel->can_create_token( $_SESSION['login_user_data']['user_id'] ) ) {
             if( $this->usertokenmodel->create_token( $_SESSION['login_user_data']['user_id'] ) ) {
                 $res['error'] = false;
                 $res['message'] = "APIトークンを作成しました。";

@@ -11,6 +11,11 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 		$this->load->model( 'uwpcertmodel' );
     }
 
+	/**
+	 * インデックスページ
+	 * 
+	 * @note	UWPのみ証明書ファイルの判定があるので、オーバーライドします。
+	 */
     public function index() {
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
@@ -40,6 +45,9 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 		$this->load->view( 'common/footer' );
 	}
 
+	/**
+	 * アプリデータリストを取得し、View向けに構築します。
+	 */
     protected function get_app_list( $num, $offset )
 	{
 		$app_list = $this->appdatalist->get_app_data_list( static::PLATFORM, static::ENVIRONMENT, $num, $offset );
@@ -57,6 +65,9 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 		return $app_view_list;
 	}
 
+	/**
+	 * 最新のアプリデータを取得し、View向けに構築します。
+	 */
 	protected function get_latest_app_data()
 	{
 		$app_list = $this->appdatalist->get_app_data_list( static::PLATFORM, static::ENVIRONMENT, 1, 0 );
@@ -78,7 +89,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
     }
 
     /**
-     * 
+     * appxbundleファイルをダウンロードします。
      */
     public function download_app() {
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
@@ -106,7 +117,10 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
     	flush();
 		readfile( $filepath );
     }
-    
+	
+	/**
+     * サイドロード用証明書をダウンロードします。
+     */
     public function download_cert() {
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
@@ -127,7 +141,10 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
     	flush();
 		readfile( $filepath );
     }
-    
+	
+	/**
+     * appxbundleファイルをアップロードします。
+     */
     public function upload_app() {
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
         
@@ -175,6 +192,9 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 					->set_output( json_encode( $res ) );
 	}
 
+	/**
+	 * 指定したビルドを一覧から削除します。
+	 */
 	public function delete_app() {
         $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
         

@@ -42,7 +42,7 @@ class UserModel extends CI_Model {
 	 * @param string	user_id		ユーザーID
 	 * @param string	user_pass	パスワード
 	 * 
-	 * @return int	ログイン認証に成功した時はID（0〜）、失敗した時は0
+	 * @return int		ログイン認証に成功した時はID（0〜）、失敗した時は0
 	 */
 	public function get_login( $user_id, $user_pass ) {
 		$this->db->select( 'id, password' )
@@ -57,7 +57,7 @@ class UserModel extends CI_Model {
 	/**
 	 * 指定したIDのユーザーデータを取得します。
 	 * 
-	 * @param int	id	取得するユーザーのID
+	 * @param int		id		取得するユーザーのID
 	 * 
 	 * @return array	ユーザーデータ（指定したIDが存在しない場合、null）
 	 */
@@ -91,8 +91,8 @@ class UserModel extends CI_Model {
 	/**
 	 * ユーザーデータの一覧を取得します。
 	 * 
-	 * @param int	num			取得する数
-	 * @param int	offset		オフセット
+	 * @param int		num			取得する数
+	 * @param int		offset		オフセット
 	 * 
 	 * @return array	ユーザーデータの一覧
 	 */
@@ -118,7 +118,7 @@ class UserModel extends CI_Model {
 	/**
 	 * 権限を表す数値から権限名を取得します。
 	 * 
-	 * @param int	role	権限を表す数値
+	 * @param int		role	権限を表す数値
 	 * 
 	 * @return string	権限の名前（存在しない数値の場合、"不明"）
 	 */
@@ -163,7 +163,7 @@ class UserModel extends CI_Model {
 	/**
 	 * 指定したIDのユーザーデータを削除します。
 	 * 
-	 * @param int	id	削除するユーザーのID
+	 * @param int		id	削除するユーザーのID
 	 * 
 	 * @return bool		true: 正常に削除された / false: 削除に失敗した
 	 */

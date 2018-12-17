@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * 404ページのオーバーライド用
+ */
 class Error_Controller extends MY_Controller {
     function error_404() {
 		$this->output->set_status_header( "404" );
