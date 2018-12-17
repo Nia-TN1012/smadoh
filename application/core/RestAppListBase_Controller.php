@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 abstract class RestAppListBase_Controller extends MY_Controller {
 
-    const PLATFORM = "ios";
-    const ENVIRONMENT = "develop";
+    const PLATFORM = "unknown";			// プラットフォーム
+	const ENVIRONMENT = "unknown";		// 環境
 
     public function __construct() {
         parent::__construct();
@@ -14,6 +14,14 @@ abstract class RestAppListBase_Controller extends MY_Controller {
     }
 
     public function list() {
+        if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$res['status_code'] = 404;
+            $res['response'] = "Error: End-point not found (disabled by app_config).";
+            $this->output->set_content_type( "application/json" )
+					    ->set_output( json_encode( $res ) );
+			return;
+        }
+        
         $header = $this->input->request_headers();
         $token = $header['token'];
         log_message( 'debug', $token );

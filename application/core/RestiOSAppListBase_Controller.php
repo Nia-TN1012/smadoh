@@ -7,6 +7,14 @@ class RestiOSAppListBase_Controller extends RestAppListBase_Controller {
 	const ENVIRONMENT = "develop";
 
     public function register() {
+        if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
+			$res['status_code'] = 404;
+            $res['response'] = "Error: End-point not found (disabled by app_config).";
+            $this->output->set_content_type( "application/json" )
+					    ->set_output( json_encode( $res ) );
+			return;
+        }
+
         $header = $this->input->request_headers();
         $token = $header['token'];
 
