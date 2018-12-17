@@ -10,7 +10,7 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
     
     public function index() {
 		if( !$this->config->item( 'uwp_use' ) ) {
-			$this->show_error_404();
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
 			return;
 		}
 
@@ -55,6 +55,11 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
 	}
 	
 	public function upload_cert() {
+		if( !$this->config->item( 'uwp_use' ) ) {
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
+			return;
+		}
+
 		$this->redirect_if_not_login( "apps/uwp/manage-certificate" );
 		
 		if( !UserModel::is_manager() ) {
@@ -114,6 +119,11 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
 	}
 
 	public function disable_cert() {
+		if( !$this->config->item( 'uwp_use' ) ) {
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
+			return;
+		}
+		
 		$this->redirect_if_not_login( "apps/uwp/manage-certificate" );
 		
 		if( !UserModel::is_manager() ) {

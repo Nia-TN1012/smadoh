@@ -12,7 +12,7 @@ class Error_Controller extends MY_Controller {
 		$this->load->view( 'common/header', $data );
 		$this->load->view( 'common/navigation' );
 
-		$this->load->view( 'errors/html/error_404' );
+		$this->load->view( 'errors/custom/error_404' );
 		$this->load->view( 'common/footer' );
     }
 }

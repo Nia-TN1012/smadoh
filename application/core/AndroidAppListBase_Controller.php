@@ -55,7 +55,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
      */
     public function download_app() {
 		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
-			$this->show_error_404();
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
 			return;
 		}
 
@@ -63,13 +63,13 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 
 		$distrib_id = @$_GET['dstid'] ?: 0;
 		if( ( $app_data = $this->appdatalist->get_app_data( static::PLATFORM, static::ENVIRONMENT, $distrib_id ) ) == null ) {
-			show_error( "HTTP 400: 不正なリクエストです。", 400, "Error" );
+			$this->show_error( "指定した配布IDのパラメーターが無効です。", 400 );
 			return;
 		}
 
 		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$distrib_id}/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" );
 		if( !file_exists( $filepath ) ) {
-			show_error( "HTTP 404: apkファイルが見つかりません", 404, "Error" );
+			$this->show_error( "apkファイルが見つかりません", 404, "apkファイルが削除された可能性があります。" );
 			return;
 		}
 
@@ -90,7 +90,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
      */
     public function upload_app() {
 		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
-			$this->show_error_404();
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
 			return;
 		}
 
@@ -145,7 +145,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
      */
     public function delete_app() {
 		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
-			$this->show_error_404();
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
 			return;
 		}
 		

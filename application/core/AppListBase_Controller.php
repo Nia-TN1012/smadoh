@@ -20,7 +20,7 @@ abstract class AppListBase_Controller extends MY_Controller {
 	 */
     public function index() {
 		if( !$this->config->item( static::PLATFORM.'_use' ) || !$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_use' ) ) {
-			$this->show_error_404();
+			$this->show_error_404( "指定のターゲットは、app_configによって無効化されています。" );
 			return;
 		}
 
