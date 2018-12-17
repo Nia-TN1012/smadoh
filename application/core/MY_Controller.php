@@ -15,7 +15,7 @@ class MY_Controller extends CI_Controller {
 	 */
 	protected function redirect_if_not_login( $redirect_to ) {
 		if( !UserModel::is_login() ) {
-            redirect( "/login?redirect=apps/{$redirect_to}" );
+            redirect( "/login?redirect={$redirect_to}" );
         }
 	}
 
