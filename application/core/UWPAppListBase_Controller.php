@@ -31,7 +31,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 
 		$this->load->library( 'pagination' );
         $config['base_url'] = "/apps/".static::PLATFORM."/".static::ENVIRONMENT;
-        $item_num = $this->appdatalist->get_app_list_num( self::PLATFORM, self::ENVIRONMENT );
+        $item_num = $this->appdatalist->get_app_list_num( static::PLATFORM, static::ENVIRONMENT );
 		$config['total_rows'] = $item_num;
 		$config['per_page'] = 10;
         $offset = isset( $_GET['p'] ) && $_GET['p'] > 0 ? ( $_GET['p'] - 1 ) * $config['per_page'] : 0;
