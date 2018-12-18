@@ -132,8 +132,8 @@
         },
         {
             "id": "4",
-            "user_id": "monkey",
-            "display_user_name": "お猿さん",
+            "user_id": "user",
+            "display_user_name": "ユーザー",
             "email": "",
             "role": "3",
             "register_time": "2018-12-13 20:50:13"
@@ -195,17 +195,20 @@
         {
             "distrib_id": "15",
             "app_version": "1.0.15",
+            "dir_hash": "0000000000000000000000000000000000000000000000000000000000000015",
             "upload_time": "2018-12-13 20:34:10"
         },
         {
             "distrib_id": "14",
             "app_version": "1.0.14",
+            "dir_hash": "0000000000000000000000000000000000000000000000000000000000000014",
             "upload_time": "2018-12-13 14:40:54"
         },
         ...
         {
             "distrib_id": "6",
             "app_version": "1.0.6",
+            "dir_hash": "0000000000000000000000000000000000000000000000000000000000000006",
             "upload_time": "2018-12-01 10:28:50"
         }
     ]
@@ -271,6 +274,7 @@
     "response": {
         "distrib_id": "1",
         "app_version": "1.0.0",
+        "dir_hash": "0000000000000000000000000000000000000000000000000000000000000001",
         "upload_time": "2018-12-01 10:28:50"
     }
 }</pre>
@@ -279,7 +283,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUWPUpdateCert" aria-expanded="false" aria-controls="collapseUWPUpdateCert">
-                            <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/uwp/{environment}/cert/update</b>
+                            <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/uwp/certificate/update</b>
                             <div class="float-right">環境を指定して、UWP版のサイドロード用証明書を更新します。</div>
                         </div>
                         <div class="collapse" id="collapseUWPUpdateCert">
@@ -287,7 +291,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>パラメーター / リクエストボディ</th>
+                                            <th>リクエストボディ</th>
                                             <th>型</th>
                                             <th>概要</th>
                                             <th>備考</th>
@@ -295,7 +299,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th>{environment}</th>
+                                            <th>environment</th>
                                             <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
                                             <td>環境（develop, staging, production）</td>
                                             <td>app_configで指定した環境が無効化されている場合、status_codeは404となります。</td>
@@ -306,12 +310,28 @@
                                             <td>アップロードする証明書ファイル（.cer）</td>
                                             <td><code>type</code>に指定するMIMEタイプは<code>application/pkix-cert</code>です。</td>
                                         </tr>
+                                        <tr>
+                                            <th>cert_file</th>
+                                            <td><span class="badge badge-info">String</span></td>
+                                            <td>メモ</td>
+                                            <td></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 リクエスト
-                                <pre class="bg-dark text-white p-2">curl -X POST -H "token: ${APIトークン}" <?= site_url( 'api/v1/apps/uwp/develop/cert/update' ) ?></pre>
+                                <pre class="bg-dark text-white p-2">curl -X POST -H "token: ${APIトークン}" -H "environment: develop" -H "memo: Develop cert" -F "cert_file=@uwp_develop_cert.cer;type=application/pkix-cert" <?= site_url( 'api/v1/apps/uwp/certificate/update' ) ?></pre>
                                 レスポンス
-                                <pre class="bg-dark text-white p-2"></pre>
+                                <pre class="bg-dark text-white p-2">{
+    "status_code": 200,
+    "response": {
+        "envronment": "develop",
+        "hash_value": "0000000000000000000000000000000000000000000000000000000000000000",
+        "memo": "Develop cert",
+        "create_time": "2018-12-11 10:30:48",
+        "expire_time": "2019-12-11 16:30:48",
+        "upload_time": "2018-12-18 19:30:05"
+    }
+}</pre>
                             </div>
                         </div>
                     </div>

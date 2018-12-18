@@ -140,3 +140,5 @@ $route['api/v1/apps/android/production/register']['POST'] = "rest/rest_app_andro
 $route['api/v1/apps/uwp/develop/register']['POST'] = "rest/rest_app_uwp_develop_controller/register";
 $route['api/v1/apps/uwp/staging/register']['POST'] = "rest/rest_app_uwp_staging_controller/register";
 $route['api/v1/apps/uwp/production/register']['POST'] = "rest/rest_app_uwp_production_controller/register";
+
+$route['api/v1/apps/uwp/certificate/update']['POST'] = "rest/rest_app_uwp_certificate_controller/update_cert";

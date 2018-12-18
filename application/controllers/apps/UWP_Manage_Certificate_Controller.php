@@ -96,7 +96,7 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
 				openssl_x509_free( $cert_res );
 				$create_time = date( 'Y-m-d H:i:s', $cert_data['validFrom_time_t'] );
 				$expire_time = date( 'Y-m-d H:i:s', $cert_data['validTo_time_t'] );
-				$cert_memo = $_POST['cert_memo'];
+				$cert_memo = @$_POST['cert_memo'] ?: "";
 
 				if( !is_dir( $upload_dest_path ) && !mkdir( $upload_dest_path, 0755, true ) ||
 					!move_uploaded_file( $_FILES['cert_file']['tmp_name'], $upload_dest_path."/uwp_{$target_type}_sideload.cer" ) ) {

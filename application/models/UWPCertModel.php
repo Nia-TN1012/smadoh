@@ -30,14 +30,23 @@ class UWPCertModel extends CI_Model {
     }
 
     /**
+     * 指定した環境のサイドロード用証明書データを取得します。
+     */
+    public function get_cert_data( $environment ) {
+        return $this->db->where( 'type_key', $environment )
+                        ->get( 'uwp_cert' )
+                        ->result_array()[0];
+    }
+
+    /**
      * 指定した環境のサイドロード用証明書が有効かどうかを判別します。
      * 
-     * @param string    enviroment     環境
+     * @param string    environment     環境
      * 
      * @return bool     true: 有効 / false: 無効
      */
-    public function has_valid_cert( $enviroment ) {
-        return $this->db->where( 'type_key', $enviroment )
+    public function has_valid_cert( $environment ) {
+        return $this->db->where( 'type_key', $environment )
                         ->where( 'expire_time >=', date( "Y-m-d H:i:s" ) )
                         ->count_all_results( 'uwp_cert' ) > 0;
     }
@@ -45,7 +54,7 @@ class UWPCertModel extends CI_Model {
     /**
      * ターゲットのキーから表示名を取得します。
      * 
-     * @param string    enviroment     環境
+     * @param string    environment     環境
      */
     public static function get_type_key_name( $environment ) {
         $environment_name = "不明";
