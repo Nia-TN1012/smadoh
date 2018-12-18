@@ -236,11 +236,11 @@ XML;
         }
 
         $distrib_id = $this->input->post( "id" );
-		if( !isset( $distrib_id ) || ( $app_data = $this->appdatalist->get_app_data( self::PLATFORM, self::ENVIRONMENT, $distrib_id ) ) == null ) {
+		if( !isset( $distrib_id ) || ( $app_data = $this->appdatalist->get_app_data( static::PLATFORM, static::ENVIRONMENT, $distrib_id ) ) == null ) {
             $res['error'] = true;
             $res['message'] = "エラー: 不正なリクエストです。";
         }
-        else if( $this->appdatalist->delete_app_data( self::PLATFORM, self::ENVIRONMENT, $distrib_id ) ) {
+        else if( $this->appdatalist->delete_app_data( static::PLATFORM, static::ENVIRONMENT, $distrib_id ) ) {
 			$this->feedmodel->add_feed( static::PLATFORM.'_'.static::ENVIRONMENT.'_name', $_SESSION['login_user_data']['display_user_name']." さんが、".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_name' )." #{$distrib_id} を削除しました。" );
             $res['error'] = false;
             $res['message'] = "配布ID: #{$distrib_id} を削除しました。";
