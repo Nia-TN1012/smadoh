@@ -140,7 +140,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 
 		$this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
 
-		$filepath = "uploads/certificate/".static::PLATFORM."/".static::ENVIRONMENT."/uwp_develop_sideload.cer";
+		$filepath = "uploads/certificate/".static::PLATFORM."/".static::ENVIRONMENT."/uwp_".static::ENVIRONMENT."_sideload.cer";
 		if( !file_exists( $filepath ) ) {
 			$this->show_error( "証明書ファイルが見つかりません。", 404, "証明書ファイルが削除された可能性があります。" );
 			return;
