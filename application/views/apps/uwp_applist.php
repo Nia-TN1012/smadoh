@@ -16,33 +16,33 @@
 				</div>
                 <div class="col-md-11 col-lg-8 row text-center">
 					<div class="col">
-                        <a class="text-primary" href="<?= $latest_app_data['appx_link'] ?>" download>
-							<i class="fab fa-windows fa-5x"></i>
-							<p><?= $this->config->item( $platform.'_'.$environment.'_appx_name' ) ?>.appxbundleを<br/>ダウンロード</p>
+                        <a class="btn btn-light text-primary p-3" href="<?= $latest_app_data['appx_link'] ?>" download>
+							<i class="fas fa-download fa-5x"></i><br/>
+							<?= $this->config->item( $platform.'_'.$environment.'_appx_name' ) ?>.appxbundleを<br/>
+							ダウンロード
 						</a>
                     </div>
                     <div class="col">
-						<a class="text-primary" href="<?= $latest_app_data['appx_direct_link'] ?>" download>
-							<i class="fas fa-plane fa-5x"></i>
-							<p>ダイレクト<br/>インストール</p>
+						<a class="btn btn-light text-primary p-3" href="<?= $latest_app_data['appx_direct_link'] ?>" download>
+							<i class="fas fa-plane fa-5x"></i><br/>
+							Windows 10デバイスに<br/>ダイレクトインストール
 						</a>
 					</div>
 					<div class="col">
 						<?php if( $has_valid_cert ): ?>
-						<a class="text-primary" href="/download/uwp/develop/cert" download>
-                            <i class="far fa-address-card fa-5x"></i>
-							<p>サイドロードアプリ用<br/>証明書をインストール</p>
+						<a class="btn btn-light text-primary p-3" href="/download/uwp/develop/cert" download>
+                            <i class="far fa-address-card fa-5x"></i><br/>
+							サイドロードアプリ用<br/>証明書をインストール
 						</a>
 						<?php else: ?>
-						<div class="text-muted" data-toggle="tooltip" data-placement="right" data-html="true" title="<i class='fas fa-exclamation-triangle'></i> サイドロードアプリ用<br/>証明書の有効期限が切れています。">
-							<i class="far fa-address-card fa-5x"></i>
-							<p>
-								サイドロードアプリ用<br/>証明書をインストール<br/>（<i class="fas fa-ban"></i> 利用不可）
-								<?php if( UserModel::is_manager() ): ?>
-								<br/><a href="<?= "/apps/{$platform}/manage-certificate" ?>"><i class="fas fa-sync-alt"></i> 証明書を更新する</a>
-								<?php endif ?>
-							</p>
+						<div class="btn btn-light disabled p-3" data-toggle="tooltip" data-placement="right" data-html="true" title="<i class='fas fa-exclamation-triangle'></i> サイドロードアプリ用<br/>証明書の有効期限が切れています。">
+							<i class="far fa-address-card fa-5x"></i><br/>
+							サイドロードアプリ用<br/>証明書をインストール<br/>
+							（<i class="fas fa-ban"></i> 利用不可）
 						</div>
+						<?php if( UserModel::is_manager() ): ?>
+						<br/><a class="text-primary" href="<?= "/apps/{$platform}/manage-certificate" ?>"><i class="fas fa-sync-alt"></i> 証明書を更新する</a>
+						<?php endif ?>
 						<?php endif ?>
 					</div>
 				</div>
@@ -75,8 +75,8 @@
 				<tr>
 					<td><?= h( $row['distrib_id'] ) ?></td>
 					<td><?= h( $row['app_version'] ) ?></td>
-                    <td><a href="<?= $row['appx_link'] ?>" download><i class="fab fa-windows"></i> <?= $this->config->item( $platform.'_'.$environment.'_appx_name' ) ?>.appxbundle</a></td>
-                    <td><a href="<?= $row['appx_direct_link'] ?>" download><i class="fas fa-plane"></i> ダイレクトインストール</a></td>
+                    <td><a class="btn btn-light text-primary" href="<?= $row['appx_link'] ?>" download><i class="fas fa-download"></i> <?= $this->config->item( $platform.'_'.$environment.'_appx_name' ) ?>.appxbundle</a></td>
+                    <td><a class="btn btn-light text-primary" href="<?= $row['appx_direct_link'] ?>" download><i class="fas fa-plane"></i> ダイレクトインストール</a></td>
 					<td><?= h( $row['upload_time'] ) ?></td>
 					<?php if( UserModel::is_manager() ): ?>
 					<td><button type="button" class="btn btn-danger" id="delete_appx_<?= h( $row['distrib_id'] ) ?>"><i id="delete_icon_<?= h( $row['distrib_id'] ) ?>" class="fas fa-trash-alt"></i></button></td>

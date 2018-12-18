@@ -16,9 +16,10 @@
 				</div>
 				<div class="col-sm-11 col-md-4 row text-center">
 					<div class="col">
-						<a class="text-primary" href="<?= $latest_app_data['apk_link'] ?>" download>
-							<i class="fab fa-android fa-5x"></i>
-							<p><?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apkを<br/>ダウンロード</p>
+						<a class="btn btn-light text-primary p-3" href="<?= $latest_app_data['apk_link'] ?>" download>
+							<i class="fas fa-download fa-5x"></i><br/>
+							<?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apkを<br/>
+							ダウンロード
 						</a>
 					</div>
 				</div>
@@ -50,7 +51,7 @@
 				<tr>
 					<td><?= h( $row['distrib_id'] ) ?></td>
 					<td><?= h( $row['app_version'] ) ?></td>
-					<td><a href="<?= $row['apk_link'] ?>" download><i class="fab fa-android"></i> <?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apk</a></td>
+					<td><a class="btn btn-light text-primary" href="<?= $row['apk_link'] ?>" download><i class="fas fa-download"></i> <?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apk</a></td>
 					<td><?= h( $row['upload_time'] ) ?></td>
 					<?php if( UserModel::is_manager() ): ?>
 					<td><button type="button" class="btn btn-danger" id="delete_apk_<?= h( $row['distrib_id'] ) ?>"><i id="delete_icon_<?= h( $row['distrib_id'] ) ?>" class="fas fa-trash-alt"></i></button></td>
