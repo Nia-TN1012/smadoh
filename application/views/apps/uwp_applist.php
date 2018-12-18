@@ -30,7 +30,7 @@
 					</div>
 					<div class="col">
 						<?php if( $has_valid_cert ): ?>
-						<a class="btn btn-light text-primary p-3" href="/download/uwp/develop/cert" download>
+						<a class="btn btn-light text-primary p-3" href="/download/uwp/<?= $environment ?>/cert" download>
                             <i class="far fa-address-card fa-5x"></i><br/>
 							サイドロードアプリ用<br/>証明書をインストール
 						</a>
