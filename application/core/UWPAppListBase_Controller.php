@@ -41,6 +41,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 
 		$data_body['latest_app_data'] = $this->get_latest_app_data();
 		$data_body['has_valid_cert'] = $this->uwpcertmodel->has_valid_cert( static::ENVIRONMENT );
+		$data_body['feed_data'] = $this->feedmodel->get_feed_list( 10, 0, static::PLATFORM."_".static::ENVIRONMENT."_name" );
 
 		$this->pagination->initialize( $config ); 
 		

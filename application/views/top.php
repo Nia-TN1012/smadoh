@@ -6,7 +6,7 @@
 	<br class="container mt-5" />
 	<div class="card">
         <div class="card-header bg-info text-white">
-            <i class="fas fa-info-circle"></i> TOPICS
+			<i class="fas fa-rss-square"></i> 最近の情報
         </div>
         <div class="card-body">
 			<?php if( !empty( $feed_data ) ): ?>
@@ -23,7 +23,7 @@
 				</tbody>
 			</table>
 			<?php else: ?>
-				<p>最近のアクションはありません。</p>
+				<p>最近の情報はありません。</p>
 			<?php endif ?>
 		</div>
 	</div>

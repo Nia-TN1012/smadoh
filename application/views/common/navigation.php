@@ -70,18 +70,17 @@
                             <img src="https://www.gravatar.com/avatar/<?= md5( strtolower( trim( !empty( $_SESSION['login_user_data']['email'] ) ? $_SESSION['login_user_data']['email'] : $_SESSION['login_user_data']['user_id']."-".$this->config->item( 'home_title' ) ) ) ) ?>?d=identicon&s=24" />
                             &nbsp;<?= h( $_SESSION['login_user_data']['display_user_name'] ) ?>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown">
                             <a class="dropdown-item" href="/user/edit"><i class="fas fa-user-cog"></i> ユーザー設定</a>
                             <a class="dropdown-item" href="/user/token"><i class="fas fa-code"></i> APIトークンの管理</a>
                             <a class="dropdown-item" href="/user/manage"><i class="fas fa-users"></i> ユーザー一覧・管理</a>
+                            <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
                         </div>
                     </li>
                     <?php endif ?>
 
                     <li class="nav-item">
-                        <?php if( UserModel::is_login() ): ?>
-                        <button tyep="button" class="btn btn-info" onClick="window.location.href='/logout';">ログアウト <i class="fas fa-sign-out-alt"></i></button>
-                        <?php else: ?>
+                        <?php if( !UserModel::is_login() ): ?>
                         <button tyep="button" class="btn btn-info" onClick="window.location.href='/login';">ログイン <i class="fas fa-sign-in-alt"></i></button>
                         <?php endif ?>
                     </li>

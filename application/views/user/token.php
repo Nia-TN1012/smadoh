@@ -21,10 +21,10 @@
             <?php if( isset( $user_token_list ) ): ?>
             <?php foreach( $user_token_list as $row ): ?>
             <tr>
-                <td><?= h( $row['token'] ) ?></td>
-                <td><?= h( $row['create_time'] ) ?></td>
-                <td><?= h( $row['expire_time'] ) ?></td>
-                <td>
+                <td class="align-middle"><?= h( $row['token'] ) ?></td>
+                <td class="align-middle"><?= h( $row['create_time'] ) ?></td>
+                <td class="align-middle"><?= h( $row['expire_time'] ) ?></td>
+                <td class="align-middle">
                     <?php switch( $row['status'] ) {
                         case UserTokenModel::API_TOKEN_AVAILABLE:
                             echo '<sapn class="badge badge-success"><i class="far fa-circle"></i> 利用可能</span>';
@@ -52,7 +52,7 @@
             <ul>
                 <li>APIトークンを利用することで、REST APIを使って、アプリデータの登録などを行うことができます。</li>
                 <?php if( $this->config->item( 'token_period' ) > 0 ): ?>
-                <li>APIトークンの有効期限は、生成から<?= $this->config->item( 'token_period' ) ?>ヶ月です。有効期限切れのAPIトークンは使用できません。（認証エラーになります。）</li>
+                <li>APIトークンの有効期限は、発行から<?= $this->config->item( 'token_period' ) ?>ヶ月です。有効期限切れのAPIトークンは使用できません。（認証エラーになります。）</li>
                 <?php endif ?>
                 <li>APIトークンは1ユーザーにつき、<?= $this->config->item( 'token_slot_num' ) ?>個まで発行できます。<?= $this->config->item( 'token_slot_num' ) + 1 ?>個目以降を発行したい場合、不要なAPIトークンを削除してから行ってください。</li>
                 <li>発行したAPIトークンは盗難されないようにご注意ください。</li>
@@ -64,7 +64,7 @@
                 <div class="card-body">
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="false" aria-controls="collapseUserInfo">
-                            <span class="badge badge-info">GET</span> <b>/user/info</b>
+                            <i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> <b>/user/info</b>
                             <div class="float-right">APIトークンに紐づいたユーザーデータを取得します。</div>
                         </div>
                         <div class="collapse" id="collapseUserInfo">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseUserList">
-                            <span class="badge badge-info">GET</span> <b>/user/list</b>
+                            <i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> <b>/user/list</b>
                             <div class="float-right"><?= $this->config->item( 'home_title' ) ?>に登録されているユーザーリストを取得します。</div>
                         </div>
                         <div class="collapse" id="collapseUserList">
@@ -145,7 +145,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseApplist" aria-expanded="false" aria-controls="collapseApplist">
-                            <span class="badge badge-info">GET</span> <b>/apps/{platform}/{environment}/list</b>
+							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> <b>/apps/{platform}/{environment}/list</b>
                             <div class="float-right">プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>に登録されているアプリデータリストを取得します。</div>
                         </div>
                         <div class="collapse" id="collapseApplist">
@@ -218,7 +218,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseAppRegister" aria-expanded="false" aria-controls="collapseAppRegister">
-                            <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/{platform}/{environment}/register</b>
+							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/{platform}/{environment}/register</b>
                             <div class="float-right">プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>にアプリパッケージをアップロードし、データを登録します。</div>
                         </div>
                         <div class="collapse" id="collapseAppRegister">
@@ -283,7 +283,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUWPUpdateCert" aria-expanded="false" aria-controls="collapseUWPUpdateCert">
-                            <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/uwp/certificate/update</b>
+							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/uwp/certificate/update</b>
                             <div class="float-right">環境を指定して、UWP版のサイドロード用証明書を更新します。</div>
                         </div>
                         <div class="collapse" id="collapseUWPUpdateCert">
@@ -338,7 +338,7 @@
                     <br class="container mt-5" />
                     <div class="card">
                         <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseStatusCode" aria-expanded="false" aria-controls="collapseStatusCode">
-                            <i class="fas fa-code"></i> ステータスコード（<code>status_code</code>）
+							<i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-code"></i> ステータスコード（<code>status_code</code>）
                         </div>
                         <div class="collapse" id="collapseStatusCode">
                             <div class="card-body">

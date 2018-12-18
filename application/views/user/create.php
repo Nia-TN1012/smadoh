@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="container-fluid">
-	<h1 class="p-2" style="background-color:#4B64A1;color:#fff"><i class="fas fa-user-plus"></i> ユーザー作成</h1>
+	<h1 class="p-2 text-white" style="background-color:#4B64A1"><i class="fas fa-user-plus"></i> ユーザー作成</h1>
     <br class="container mt-5" />
     <?php if( $error ): ?>
         <div class="alert alert-danger" role="alert"><?= $message ?></div>
@@ -72,46 +72,54 @@
                     <li>ユーザーIDには、英数字とアンダーバー（_）、ハイフン（-）が利用できます。また、他ユーザーが使用しているユーザーIDは使用できません。</li>
                 </ul>
                 <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-shield-alt"></i> ロールの権限範囲
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
+                        <i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-shield-alt"></i> ロールの権限範囲
                     </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>操作</th>
-                                    <th>システム管理者</th>
-                                    <th>アプリ管理者</th>
-                                    <th>ユーザー</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>アプリリスト閲覧、ダウンロード</th>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td><i class="fas fa-check"></i></td>
-                                </tr>
-                                <tr>
-                                    <th>アプリの追加・削除</th>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>ユーザーの管理</th>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>REST API ( for Jenkins )</th>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td><i class="fas fa-check"></i></td>
-                                    <td><i class="fas fa-check"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="collapse" id="collapseRole">
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>システム管理者</th>
+                                        <th>アプリ管理者</th>
+                                        <th>ユーザー</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>アプリリスト閲覧、ダウンロード</th>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td><i class="far fa-circle"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <th>アプリの追加・削除</th>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>（UWP版のみ）証明書の管理</th>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>ユーザーの管理</th>
+                                        <td><i class="far fa-circle"></i></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th><a href="/user/token">REST API</a></th>
+                                        <td><i class="far fa-circle"></i>（全て対応）</td>
+                                        <td><i class="far fa-circle"></i>（全て対応）</td>
+                                        <td><i class="far fa-circle"></i>（一部対応）</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 			</div>

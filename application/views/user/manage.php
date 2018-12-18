@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="container-fluid">
-	<h1 class="p-2" style="background-color:#4B64A1;color:#fff"><i class="fas fa-users"></i> ユーザー管理</h1>
+	<h1 class="p-2 text-white" style="background-color:#4B64A1"><i class="fas fa-users"></i> ユーザー管理</h1>
     <br class="container mt-5" />
-    <h2><i class="fas fa-list"></i> ユーザー一覧</h2>
+    <h2><i class="fas fa-list"></i> ユーザー一覧 <span class="mx-2 px-1 text-white" style="background-color:#4B64A1"><?= $user_num ?></span></h2>
     <?php if( UserModel::is_admin() ): ?>
     <div id="response_panel" class="alert alert-default" role="alert"></div>
     <div class="float-right">
@@ -30,11 +30,11 @@
             <tr class="<?= $row['id'] === $_SESSION['login_user_data']['id'] ? "table-info" : "" ?>">
                 <td>
                     <img src="https://www.gravatar.com/avatar/<?= md5( strtolower( trim( !empty( $row['email'] ) ? $row['email'] : $row['user_id']."-".$this->config->item( 'home_title' ) ) ) ) ?>?d=identicon&s=24" />
-                    &nbsp;<?= h( $row['id'] ) ?>
+                    &nbsp;<span class="align-middle"><?= h( $row['id'] ) ?></span>
                 </td>
-                <td><?= h( $row['user_id'] ) ?></td>
-                <td><?= h( $row['display_user_name'] ) ?></td>
-                <td><?= h( $row['email'] ) ?></td>
+                <td class="align-middle"><?= h( $row['user_id'] ) ?></td>
+                <td class="align-middle"><?= h( $row['display_user_name'] ) ?></td>
+                <td class="align-middle"><?= h( $row['email'] ) ?></td>
                 <td>
                     <?php if( UserModel::is_admin() && $row['id'] != $_SESSION['login_user_data']['id'] ): ?>
                     <select id="role_select_<?= $row['id'] ?>" name="role_select_<?= $row['id'] ?>" class="form-control form-control-sm">
@@ -46,7 +46,7 @@
                     <?= h( $row['role_name'] ) ?>
                     <?php endif ?>
                 </td>
-                <td><?= h( $row['register_time'] ) ?></td>
+                <td class="align-middle"><?= h( $row['register_time'] ) ?></td>
                 <?php if( UserModel::is_admin() ): ?>
                 <td>
                     <?php if( $row['id'] != $_SESSION['login_user_data']['id'] ): ?>
@@ -73,46 +73,54 @@
                 <li>他のユーザーを削除する時は、ゴミ箱ボタンを押します。</li>
             </ul>
             <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-shield-alt"></i> ロールの権限範囲
+                <div class="card-header" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
+                    <i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-shield-alt"></i> ロールの権限範囲
                 </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>操作</th>
-                                <th>システム管理者</th>
-                                <th>アプリ管理者</th>
-                                <th>ユーザー</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>アプリリスト閲覧、ダウンロード</th>
-                                <td><i class="fas fa-check"></i></td>
-                                <td><i class="fas fa-check"></i></td>
-                                <td><i class="fas fa-check"></i></td>
-                            </tr>
-                            <tr>
-                                <th>アプリの追加・削除</th>
-                                <td><i class="fas fa-check"></i></td>
-                                <td><i class="fas fa-check"></i></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>ユーザーの管理</th>
-                                <td><i class="fas fa-check"></i></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>REST API</th>
-                                <td><i class="fas fa-check"></i></td>
-                                <td><i class="fas fa-check"></i></td>
-                                <td><i class="fas fa-check"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="collapse" id="collapseRole">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>操作</th>
+                                    <th>システム管理者</th>
+                                    <th>アプリ管理者</th>
+                                    <th>ユーザー</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>アプリリスト閲覧、ダウンロード</th>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td><i class="far fa-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <th>アプリの追加・削除</th>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>（UWP版のみ）証明書の管理</th>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>ユーザーの管理</th>
+                                    <td><i class="far fa-circle"></i></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th><a href="/user/token">REST API</a></th>
+                                    <td><i class="far fa-circle"></i>（全て対応）</td>
+                                    <td><i class="far fa-circle"></i>（全て対応）</td>
+                                    <td><i class="far fa-circle"></i>（一部対応）</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

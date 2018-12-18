@@ -1,12 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login_Controller extends CI_Controller {
-
-	public function __construct() {
-		parent::__construct();
-		$this->load->model( 'usermodel' );
-	}
+class Login_Controller extends MY_Controller {
 
     public function index() {
 		if( UserModel::is_login() ) {

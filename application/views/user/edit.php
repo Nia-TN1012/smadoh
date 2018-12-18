@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="container-fluid">
-    <h1 class="p-2" style="background-color:#4B64A1;color:#fff"><i class="fas fa-user-cog"></i> ユーザー設定</h1>
+    <h1 class="p-2 text-white" style="background-color:#4B64A1"><i class="fas fa-user-cog"></i> ユーザー設定</h1>
     <br class="container mt-5" />
     <?php if( $error ): ?>
         <div class="alert alert-danger" role="alert"><?= $message ?></div>

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="container-fluid">
-    <h1 class="p-2" style="background-color:#4B64A1;color:#fff">ログイン</h1>
+    <h1 class="p-2 text-white" style="background-color:#4B64A1">ログイン</h1>
     <br class="container mt-5" />
 	<div class="p-5 border shadow-sm">
         <div id="errorpanel" class="alert alert-danger" role="alert">ログインしてください。</div>

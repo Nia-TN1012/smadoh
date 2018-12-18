@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="container-fluid">
-	<h1 class="p-2" style="background-color:#6B8E23;color:#fff"><i class="fab fa-android"></i> <?= $page_title ?></h1>
+	<h1 class="p-2 text-white" style="background-color:#6B8E23"><i class="fab fa-android"></i> <?= $page_title ?></h1>
 	<div class="m-2">
 		<?php if( !is_null( $latest_app_data ) ): ?>
-		<div class="p-3 col-sm-12 col-md-9 col-lg-7 col-xl-5 border rounded shadow-sm">
+		<div class="p-3 float-left border rounded shadow-sm">
 			<div class="row">
-				<div class="col-sm-11 col-md-8">
+				<div class="mx-3 my-2">
 					<h2><i class="far fa-star"></i> 最新のビルド</h2>
 					<div class="p-2">
 						配布ID: #<?= h( $latest_app_data['distrib_id'] ) ?><br/>
@@ -14,8 +14,8 @@
 						アップロード日: <?= h( $latest_app_data['upload_time'] ) ?>
 					</div>
 				</div>
-				<div class="col-sm-11 col-md-4 row text-center">
-					<div class="col">
+				<div class="mx-3 text-center">
+					<div class="m-2 col">
 						<a class="btn btn-light text-primary p-3" href="<?= $latest_app_data['apk_link'] ?>" download>
 							<i class="fas fa-download fa-5x"></i><br/>
 							<?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apkを<br/>
@@ -25,10 +25,11 @@
 				</div>
 			</div>
 		</div>
+		<div class="clearfix"></div>
 		<?php endif ?>
 		<br class="container mt-5" />
 		
-		<h2><i class="fas fa-list"></i> ビルド一覧</h2>
+		<h2><i class="fas fa-list"></i> ビルド一覧 <span class="mx-2 px-1 text-white" style="background-color:#6B8E23"><?= $item_num ?></span></h2>
 		<div class="float-right">
 			<?php if( UserModel::is_manager() ): ?>
 			<button type="button" class="m-1 btn btn-primary" data-toggle="modal" data-target="#upload_modal"><i class="fas fa-upload"></i> apkファイルのアップロード</button>
@@ -49,10 +50,10 @@
 			<tbody>
 				<?php foreach( $app_view_list as $row ): ?>
 				<tr>
-					<td><?= h( $row['distrib_id'] ) ?></td>
-					<td><?= h( $row['app_version'] ) ?></td>
+					<td class="align-middle"><?= h( $row['distrib_id'] ) ?></td>
+					<td class="align-middle"><?= h( $row['app_version'] ) ?></td>
 					<td><a class="btn btn-light text-primary" href="<?= $row['apk_link'] ?>" download><i class="fas fa-download"></i> <?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apk</a></td>
-					<td><?= h( $row['upload_time'] ) ?></td>
+					<td class="align-middle"><?= h( $row['upload_time'] ) ?></td>
 					<?php if( UserModel::is_manager() ): ?>
 					<td><button type="button" class="btn btn-danger" id="delete_apk_<?= h( $row['distrib_id'] ) ?>"><i id="delete_icon_<?= h( $row['distrib_id'] ) ?>" class="fas fa-trash-alt"></i></button></td>
 					<?php endif ?>
@@ -120,6 +121,30 @@
 					<li>Android 7.1以前では、あらかじめAndroidデバイスの「設定」→「セキュリティ」で「提供現不明のアプリ」にチェックを入れておく必要があります。</li>
 					<li>Android 8.0以降では、<?= $this->config->item( $platform.'_'.$environment.'_app_name' ) ?>のアプリ情報で「不明なアプリのインストール」を許可しておく必要があります。</li>
 				</ul>
+			</div>
+		</div>
+		<br class="container mt-5" />
+		<div class="card">
+			<div class="card-header bg-info text-white">
+				<i class="fas fa-rss-square"></i> 最近の情報
+			</div>
+			<div class="card-body">
+				<?php if( !empty( $feed_data ) ): ?>
+				<table class="table table-borderless table-sm table-responsive">
+					<tbody>
+						<?php foreach( $feed_data as $feed ): ?>
+							<tr>
+								<td>&middot;</td>
+								<td><?= $feed['create_time'] ?></td>
+								<td><span class="badge badge-info"><?= $this->config->item( $feed['category'] ) ?></span></td>
+								<td><?= h( $feed['content'] ) ?></td>
+							</tr>
+						<?php endforeach ?>
+					</tbody>
+				</table>
+				<?php else: ?>
+					<p>最近の情報はありません。</p>
+				<?php endif ?>
 			</div>
 		</div>
 	</div>

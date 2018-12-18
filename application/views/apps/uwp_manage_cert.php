@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="container-fluid">
-    <h1 class="p-2" style="background-color:#2595C7;color:#fff"><i class="fas fa-address-card"></i> サイドロードアプリ用証明書の管理</h1>
+    <h1 class="p-2 text-white" style="background-color:#2595C7"><i class="fas fa-address-card"></i> サイドロードアプリ用証明書の管理</h1>
     <br class="container mt-5" />
     <?php if( $error ): ?>
     <div class="alert alert-danger" role="alert"><?= $message ?></div>
@@ -27,13 +27,13 @@
             <?php if( isset( $cert_list ) ): ?>
             <?php foreach( $cert_list as $row ): ?>
             <tr>
-                <td><?= h( $row['type_key_name'] ) ?></td>
-                <td><?= h( $row['hash_value'] ) ?></td>
-                <td><?= h( $row['memo'] ) ?></td>
-                <td><?= h( $row['upload_time'] ) ?></td>
-                <td><?= h( $row['create_time'] ) ?></td>
-                <td><?= h( $row['expire_time'] ) ?></td>
-                <td>
+                <td class="align-middle"><?= h( $row['type_key_name'] ) ?></td>
+                <td class="align-middle"><?= h( $row['hash_value'] ) ?></td>
+                <td class="align-middle"><?= h( $row['memo'] ) ?></td>
+                <td class="align-middle"><?= h( $row['upload_time'] ) ?></td>
+                <td class="align-middle"><?= h( $row['create_time'] ) ?></td>
+                <td class="align-middle"><?= h( $row['expire_time'] ) ?></td>
+                <td class="align-middle">
                     <?php switch( $row['status'] ) {
                         case UWPCertModel::UWP_CERT_AVAILABLE:
                             echo '<span class="badge badge-success"><i class="far fa-circle"></i> 利用可能</span>';

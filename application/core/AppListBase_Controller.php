@@ -44,6 +44,7 @@ abstract class AppListBase_Controller extends MY_Controller {
 
         $data_body['app_view_list'] = $this->get_app_list( $config['per_page'], $offset );
 		$data_body['item_num'] = $item_num;
+		$data_body['feed_data'] = $this->feedmodel->get_feed_list( 10, 0, static::PLATFORM."_".static::ENVIRONMENT."_name" );
 
 		$data_body['latest_app_data'] = $this->get_latest_app_data();
 
