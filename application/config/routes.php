@@ -54,24 +54,13 @@ $route['404_override'] = 'error_controller/error_404';
 $route['translate_uri_dashes'] = TRUE;
 
 $route['apps/(ios|android|uwp)/(develop|staging|production)'] = "apps/$1_$2_controller";
+$route['apps/(ios|android|uwp)/(develop|staging|production)/app/(download|upload|delete)'] = "apps/$1_$2_controller/$3_app";
 
-$route['download/ios/(develop|staging|production)/ipa'] = "apps/ios_$1_controller/download_app";
-$route['apps/ios/(develop|staging|production)/upload-ipa'] = "apps/ios_$1_controller/upload_app";
-$route['download/ios/(develop|staging|production)/plist'] = "apps/ios_$1_controller/download_plist";
-$route['apps/ios/(develop|staging|production)/delete-ipa'] = "apps/ios_$1_controller/delete_app";
-
-$route['download/(develop|staging|production)/develop/apk'] = "apps/android_$1_controller/download_app";
-$route['apps/android/(develop|staging|production)/upload-apk'] = "apps/android_$1_controller/upload_app";
-$route['apps/android/(develop|staging|production)/delete-apk'] = "apps/android_$1_controller/delete_app";
-
-$route['download/uwp/(develop|staging|production)/appx'] = "apps/uwp_$1_controller/download_app";
-$route['apps/uwp/(develop|staging|production)/upload-appx'] = "apps/uwp_$1_controller/upload_app";
-$route['apps/uwp/(develop|staging|production)/delete-appx'] = "apps/uwp_develop_controller/delete_app";
-
+$route['apps/ios/(develop|staging|production)/plist/download'] = "apps/ios_$1_controller/download_plist";
+$route['apps/uwp/(develop|staging|production)/certificate/download'] = "apps/uwp_$1_controller/download_cert";
 $route['apps/uwp/manage-certificate'] = "apps/uwp_manage_certificate_controller";
 $route['apps/uwp/manage-certificate/upload-cert'] = "apps/uwp_manage_certificate_controller/upload_cert";
 $route['apps/uwp/manage-certificate/disable-cert'] = "apps/uwp_manage_certificate_controller/disable_cert";
-$route['download/uwp/(develop|staging|production)/cert'] = "apps/uwp_$1_controller/download_cert";
 
 $route['login'] = "user/login_controller";
 $route['login/signin'] = "user/login_controller/signin";

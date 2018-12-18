@@ -203,7 +203,7 @@
 			formData.append( 'app_version', $( '#upload_app_ver' ).val() );
             $.ajax({
                 type: "POST",
-                url: "<?= site_url( "apps/{$platform}/{$environment}/upload-ipa" ) ?>",
+                url: "<?= site_url( "apps/{$platform}/{$environment}/app/upload" ) ?>",
                 dataType: "json",
                 data: formData,
 				processData: false,
@@ -229,7 +229,7 @@
             if( confirm( "配布ID: #" + dstid + " をビルド一覧から削除してよろしいですか？" ) ) {
                 $.ajax({
                     type: "POST",
-                    url: "<?= site_url( "apps/{$platform}/{$environment}/delete-ipa" ) ?>",
+                    url: "<?= site_url( "apps/{$platform}/{$environment}/app/delete" ) ?>",
                     dataType: "json",
                     data: { 
                         id: dstid

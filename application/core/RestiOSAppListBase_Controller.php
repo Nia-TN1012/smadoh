@@ -73,9 +73,9 @@ class RestiOSAppListBase_Controller extends RestAppListBase_Controller {
     }
 
     private function generate_ota_plist( $new_distrib_id, $app_version, $upload_dest_path ) {
-        $base_url = base_url();
         $platform = static::PLATFORM;
         $environment = static::ENVIRONMENT;
+        $ipa_url = site_url( "apps/{$platform}/{$environment}/app/download?dstid={$new_distrib_id}" );
 
 		$ota_plist_template = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -91,7 +91,7 @@ class RestiOSAppListBase_Controller extends RestAppListBase_Controller {
                     <key>kind</key>
                     <string>software-package</string>
                     <key>url</key>
-                    <string>{$base_url}apps/{$platform}/{$environment}/download-ipa?dstid={$new_distrib_id}</string>
+                    <string>{$ipa_url}</string>
                 </dict>
             </array>
             <key>metadata</key>

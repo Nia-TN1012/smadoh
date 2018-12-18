@@ -58,11 +58,12 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 		$app_list = $this->appdatalist->get_app_data_list( static::PLATFORM, static::ENVIRONMENT, $num, $offset );
 		$app_view_list = [];
 		foreach( $app_list as $row ) {
+			$appx_link = site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/app/download?dstid=".$row['distrib_id'] );
 			$app_view_list[] = [
 				'distrib_id' 		=> $row['distrib_id'],
 				'app_version' 		=> $row['app_version'],
-				'appx_link'			=> site_url( "download/".static::PLATFORM."/".static::ENVIRONMENT."/appx?dstid=".$row['distrib_id'] ),
-				'appx_direct_link'	=> "ms-appinstaller:?source=".site_url( "download/".static::PLATFORM."/".static::ENVIRONMENT."/appx?dstid=".$row['distrib_id'] ),
+				'appx_link'			=> $appx_link,
+				'appx_direct_link'	=> "ms-appinstaller:?source={$appx_link}",
 				'upload_time' 		=> $row['upload_time']
 			];
 		}

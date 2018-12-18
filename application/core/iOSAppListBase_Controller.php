@@ -17,8 +17,8 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
 			$app_view_list[] = [
 				'distrib_id' 		=> $row['distrib_id'],
 				'app_version' 		=> $row['app_version'],
-				'ipa_link'			=> $this->config->base_url()."download/".static::PLATFORM."/".static::ENVIRONMENT."/ipa?dstid=".$row['distrib_id'],
-				'ota_plist_link'	=> "itms-services://?action=download-manifest&url=".$this->config->base_url()."download/".static::PLATFORM."/".static::ENVIRONMENT."/plist?dstid=".$row['distrib_id'],
+				'ipa_link'			=> site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/app/download?dstid=".$row['distrib_id'] ),
+				'ota_plist_link'	=> "itms-services://?action=download-manifest&url=".site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/plist/download?dstid=".$row['distrib_id'] ),
 				'upload_time' 		=> $row['upload_time']
 			];
 		}
@@ -40,8 +40,8 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
 			$app_view_data = [
 				'distrib_id' 		=> $row['distrib_id'],
 				'app_version' 		=> $row['app_version'],
-				'ipa_link'			=> $this->config->base_url()."download/".static::PLATFORM."/".static::ENVIRONMENT."/ipa?dstid=".$row['distrib_id'],
-				'ota_plist_link'	=> "itms-services://?action=download-manifest&url=".$this->config->base_url()."download/".static::PLATFORM."/".static::ENVIRONMENT."/plist?dstid=".$row['distrib_id'],
+				'ipa_link'			=> site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/app/download?dstid=".$row['distrib_id'] ),
+				'ota_plist_link'	=> "itms-services://?action=download-manifest&url=".site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/plist/download?dstid=".$row['distrib_id'] ),
 				'upload_time' 		=> $row['upload_time']
 			];
 		}
@@ -179,9 +179,9 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
     }
     
     private function generate_ota_plist( $new_distrib_id, $app_version, $upload_dest_path ) {
-        $base_url = base_url();
         $platform = static::PLATFORM;
-        $environment = static::ENVIRONMENT;
+		$environment = static::ENVIRONMENT;
+		$ipa_url = site_url( "apps/{$platform}/{$environment}/app/download?dstid={$new_distrib_id}" );
 
 		$ota_plist_template = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -197,7 +197,7 @@ class iOSAppListBase_Controller extends AppListBase_Controller {
                     <key>kind</key>
                     <string>software-package</string>
                     <key>url</key>
-                    <string>{$base_url}apps/{$platform}/{$environment}/download-ipa?dstid={$new_distrib_id}</string>
+                    <string>{$ipa_url}</string>
                 </dict>
             </array>
             <key>metadata</key>

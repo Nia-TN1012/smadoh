@@ -20,7 +20,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 			$app_view_list[] = [
 				'distrib_id' 		=> $row['distrib_id'],
 				'app_version' 		=> $row['app_version'],
-				'apk_link'			=> $this->config->base_url()."download/".static::PLATFORM."/".static::ENVIRONMENT."/apk?dstid=".$row['distrib_id'],
+				'apk_link'			=> site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/app/download?dstid=".$row['distrib_id'] ),
 				'upload_time' 		=> $row['upload_time']
 			];
 		}
@@ -42,7 +42,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 			$app_view_data = [
 				'distrib_id' 		=> $row['distrib_id'],
 				'app_version' 		=> $row['app_version'],
-				'apk_link'			=> $this->config->base_url()."download/".static::PLATFORM."/".static::ENVIRONMENT."/apk?dstid=".$row['distrib_id'],
+				'apk_link'			=> site_url( "apps/".static::PLATFORM."/".static::ENVIRONMENT."/app/download?dstid=".$row['distrib_id'] ),
 				'upload_time' 		=> $row['upload_time']
 			];
 		}

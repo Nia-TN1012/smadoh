@@ -30,7 +30,7 @@
 					</div>
 					<div class="col">
 						<?php if( $has_valid_cert ): ?>
-						<a class="btn btn-light text-primary p-3" href="/download/uwp/<?= $environment ?>/cert" download>
+						<a class="btn btn-light text-primary p-3" href="/apps/uwp/<?= $environment ?>/certificate/download" download>
                             <i class="far fa-address-card fa-5x"></i><br/>
 							サイドロードアプリ用<br/>証明書をインストール
 						</a>
@@ -216,7 +216,7 @@
             
             $.ajax({
                 type: "POST",
-                url: "<?= site_url( "apps/{$platform}/{$environment}/upload-appx" ) ?>",
+                url: "<?= site_url( "apps/{$platform}/{$environment}/app/upload" ) ?>",
                 dataType: "json",
                 data: formData,
 				processData: false,
@@ -242,7 +242,7 @@
             if( confirm( "配布ID: #" + dstid + " をビルド一覧から削除してよろしいですか？" ) ) {
                 $.ajax({
                     type: "POST",
-                    url: "<?= site_url( "apps/{$platform}/{$environment}/delete-appx" ) ?>",
+                    url: "<?= site_url( "apps/{$platform}/{$environment}/app/delete" ) ?>",
                     dataType: "json",
                     data: { 
                         id: dstid
