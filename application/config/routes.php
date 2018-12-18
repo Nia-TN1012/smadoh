@@ -53,55 +53,25 @@ $route['default_controller'] = "top";
 $route['404_override'] = 'error_controller/error_404';
 $route['translate_uri_dashes'] = TRUE;
 
-$route['apps/ios/develop'] = "apps/ios_develop_controller";
-$route['apps/ios/staging'] = "apps/ios_staging_controller";
-$route['apps/ios/production'] = "apps/ios_production_controller";
-$route['apps/android/develop'] = "apps/android_develop_controller";
-$route['apps/android/staging'] = "apps/android_staging_controller";
-$route['apps/android/production'] = "apps/android_production_controller";
-$route['apps/uwp/develop'] = "apps/uwp_develop_controller";
-$route['apps/uwp/staging'] = "apps/uwp_staging_controller";
-$route['apps/uwp/production'] = "apps/uwp_production_controller";
+$route['apps/(ios|android|uwp)/(develop|staging|production)'] = "apps/$1_$2_controller";
 
-$route['download/ios/develop/ipa'] = "apps/ios_develop_controller/download_app";
-$route['download/ios/staging/ipa'] = "apps/ios_staging_controller/download_app";
-$route['download/ios/production/ipa'] = "apps/ios_production_controller/download_app";
-$route['download/ios/develop/plist'] = "apps/ios_develop_controller/download_plist";
-$route['download/ios/staging/plist'] = "apps/ios_production_controller/download_plist";
-$route['download/ios/production/plist'] = "apps/ios_staging_controller/download_plist";
-$route['download/android/develop/apk'] = "apps/android_develop_controller/download_app";
-$route['download/android/staging/apk'] = "apps/android_staging_controller/download_app";
-$route['download/android/production/apk'] = "apps/android_production_controller/download_app";
-$route['download/uwp/develop/appx'] = "apps/uwp_develop_controller/download_app";
-$route['download/uwp/staging/appx'] = "apps/uwp_staging_controller/download_app";
-$route['download/uwp/production/appx'] = "apps/uwp_production_controller/download_app";
+$route['download/ios/(develop|staging|production)/ipa'] = "apps/ios_$1_controller/download_app";
+$route['apps/ios/(develop|staging|production)/upload-ipa'] = "apps/ios_$1_controller/upload_app";
+$route['download/ios/(develop|staging|production)/plist'] = "apps/ios_$1_controller/download_plist";
+$route['apps/ios/(develop|staging|production)/delete-ipa'] = "apps/ios_$1_controller/delete_app";
 
-$route['apps/ios/develop/upload-ipa'] = "apps/ios_develop_controller/upload_app";
-$route['apps/ios/staging/upload-ipa'] = "apps/ios_staging_controller/upload_app";
-$route['apps/ios/production/upload-ipa'] = "apps/ios_production_controller/upload_app";
-$route['apps/android/develop/upload-apk'] = "apps/android_develop_controller/upload_app";
-$route['apps/android/staging/upload-apk'] = "apps/android_staging_controller/upload_app";
-$route['apps/android/production/upload-apk'] = "apps/android_production_controller/upload_app";
-$route['apps/uwp/develop/upload-appx'] = "apps/uwp_develop_controller/upload_app";
-$route['apps/uwp/staging/upload-appx'] = "apps/uwp_staging_controller/upload_app";
-$route['apps/uwp/production/upload-appx'] = "apps/uwp_production_controller/upload_app";
+$route['download/(develop|staging|production)/develop/apk'] = "apps/android_$1_controller/download_app";
+$route['apps/android/(develop|staging|production)/upload-apk'] = "apps/android_$1_controller/upload_app";
+$route['apps/android/(develop|staging|production)/delete-apk'] = "apps/android_$1_controller/delete_app";
 
-$route['apps/ios/develop/delete-ipa'] = "apps/ios_develop_controller/delete_app";
-$route['apps/ios/staging/delete-ipa'] = "apps/ios_staging_controller/delete_app";
-$route['apps/ios/production/delete-ipa'] = "apps/ios_production_controller/delete_app";
-$route['apps/android/develop/delete-apk'] = "apps/android_develop_controller/delete_app";
-$route['apps/android/staging/delete-apk'] = "apps/android_staging_controller/delete_app";
-$route['apps/android/production/delete-apk'] = "apps/android_production_controller/delete_app";
-$route['apps/uwp/develop/delete-appx'] = "apps/uwp_develop_controller/delete_app";
-$route['apps/uwp/staging/delete-appx'] = "apps/uwp_staging_controller/delete_app";
-$route['apps/uwp/production/delete-appx'] = "apps/uwp_production_controller/delete_app";
+$route['download/uwp/(develop|staging|production)/appx'] = "apps/uwp_$1_controller/download_app";
+$route['apps/uwp/(develop|staging|production)/upload-appx'] = "apps/uwp_$1_controller/upload_app";
+$route['apps/uwp/(develop|staging|production)/delete-appx'] = "apps/uwp_develop_controller/delete_app";
 
 $route['apps/uwp/manage-certificate'] = "apps/uwp_manage_certificate_controller";
 $route['apps/uwp/manage-certificate/upload-cert'] = "apps/uwp_manage_certificate_controller/upload_cert";
 $route['apps/uwp/manage-certificate/disable-cert'] = "apps/uwp_manage_certificate_controller/disable_cert";
-$route['download/uwp/develop/cert'] = "apps/uwp_develop_controller/download_cert";
-$route['download/uwp/staging/cert'] = "apps/uwp_staging_controller/download_cert";
-$route['download/uwp/production/cert'] = "apps/uwp_production_controller/download_cert";
+$route['download/uwp/(develop|staging|production)/cert'] = "apps/uwp_$1_controller/download_cert";
 
 $route['login'] = "user/login_controller";
 $route['login/signin'] = "user/login_controller/signin";
@@ -121,24 +91,7 @@ $route['user/token/delete'] = "user/user_token_controller/delete_token";
 $route['api/v1/user/info']['GET'] = "rest/rest_user_controller/info";
 $route['api/v1/user/list']['GET'] = "rest/rest_user_controller/list";
 
-$route['api/v1/apps/ios/develop/list']['GET'] = "rest/rest_app_ios_develop_controller/list";
-$route['api/v1/apps/ios/staging/list']['GET'] = "rest/rest_app_ios_staging_controller/list";
-$route['api/v1/apps/ios/production/list']['GET'] = "rest/rest_app_ios_production_controller/list";
-$route['api/v1/apps/android/develop/list']['GET'] = "rest/rest_app_android_develop_controller/list";
-$route['api/v1/apps/android/staging/list']['GET'] = "rest/rest_app_android_staging_controller/list";
-$route['api/v1/apps/android/production/list']['GET'] = "rest/rest_app_android_production_controller/list";
-$route['api/v1/apps/uwp/develop/list']['GET'] = "rest/rest_app_uwp_develop_controller/list";
-$route['api/v1/apps/uwp/staging/list']['GET'] = "rest/rest_app_uwp_staging_controller/list";
-$route['api/v1/apps/uwp/production/list']['GET'] = "rest/rest_app_uwp_production_controller/list";
-
-$route['api/v1/apps/ios/develop/register']['POST'] = "rest/rest_app_ios_develop_controller/register";
-$route['api/v1/apps/ios/staging/register']['POST'] = "rest/rest_app_ios_staging_controller/register";
-$route['api/v1/apps/ios/production/register']['POST'] = "rest/rest_app_ios_production_controller/register";
-$route['api/v1/apps/android/develop/register']['POST'] = "rest/rest_app_android_develop_controller/register";
-$route['api/v1/apps/android/staging/register']['POST'] = "rest/rest_app_android_staging_controller/register";
-$route['api/v1/apps/android/production/register']['POST'] = "rest/rest_app_android_production_controller/register";
-$route['api/v1/apps/uwp/develop/register']['POST'] = "rest/rest_app_uwp_develop_controller/register";
-$route['api/v1/apps/uwp/staging/register']['POST'] = "rest/rest_app_uwp_staging_controller/register";
-$route['api/v1/apps/uwp/production/register']['POST'] = "rest/rest_app_uwp_production_controller/register";
+$route['api/v1/apps/(ios|android|uwp)/(develop|staging|production)/list']['GET'] = "rest/rest_app_$1_$2_controller/list";
+$route['api/v1/apps/(ios|android|uwp)/(develop|staging|production)/register']['POST'] = "rest/rest_app_$1_$2_controller/register";
 
 $route['api/v1/apps/uwp/certificate/update']['POST'] = "rest/rest_app_uwp_certificate_controller/update_cert";
