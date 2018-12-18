@@ -1,14 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-abstract class RestAppListBase_Controller extends MY_Controller {
+abstract class RestAppListBase_Controller extends RestBase_Controller {
 
     const PLATFORM = "unknown";			// プラットフォーム
 	const ENVIRONMENT = "unknown";		// 環境
 
     public function __construct() {
         parent::__construct();
-        $this->load->model( 'usertokenmodel' );
         $this->load->model( 'appdatalist' );
         $this->load->model( 'feedmodel' );
     }
@@ -23,20 +22,11 @@ abstract class RestAppListBase_Controller extends MY_Controller {
         }
         
         $header = $this->input->request_headers();
-        $token = $header['token'];
-        log_message( 'debug', $token );
-        if( !isset( $token ) ) {
-            $res['status_code'] = 401;
-            $res['response'] = "Error: No API token specified.";
+
+        $auth_res = $this->authenticate( $header['token'] );
+        if( $auth_res['status_code'] !== 200 ) {
             $this->output->set_content_type( "application/json" )
-					    ->set_output( json_encode( $res ) );
-            return;
-        }
-        else if( ( $user_id = $this->usertokenmodel->get_user_id_by_token( $token ) ) === null ) {
-            $res['status_code'] = 401;
-            $res['response'] = "Error: Invalid API token.";
-            $this->output->set_content_type( "application/json" )
-					    ->set_output( json_encode( $res ) );
+					    ->set_output( json_encode( $auth_res ) );
             return;
         }
 

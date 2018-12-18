@@ -1,6 +1,6 @@
 <?php
 
-class Migration_Add_app_data extends CI_Migration {
+class Migration_App_data extends CI_Migration {
     public function __construct()
     {   
         parent::__construct();
@@ -23,17 +23,25 @@ class Migration_Add_app_data extends CI_Migration {
     private function create_table_add_field( $table )
     {
         $fields = [
+            // 配布ID
             'distrib_id' => [
                 'type' => "INT",
                 'constraint' => 10,
                 'unsigned' => TRUE,
-                'auto_increment' => TRUE,
-                'unique' => TRUE
+                'auto_increment' => TRUE
             ],
+            // アプリバージョン
             'app_version' => [
                 'type' => "VARCHAR",
                 'constraint' => 100
             ],
+            // ディレクトリ識別用ハッシュ（SHA-256）
+            'dir_hash' => [
+                'type' => "VARCHAR",
+                'constraint' => 255,
+                'unique' => TRUE
+            ],
+            // アップロード日
             'upload_time' => [
                 'type' => "DATETIME"
             ]

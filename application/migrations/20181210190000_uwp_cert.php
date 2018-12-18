@@ -13,8 +13,7 @@ class Migration_UWP_Cert extends CI_Migration {
             // 種別
             'type_key' => [
                 'type' => "VARCHAR",
-                'constraint' => 255,
-                'unique' => TRUE
+                'constraint' => 255
             ],
             // ハッシュ値（SHA256）
             'hash_value' => [

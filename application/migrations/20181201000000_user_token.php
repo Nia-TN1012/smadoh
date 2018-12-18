@@ -15,8 +15,7 @@ class Migration_User_Token extends CI_Migration {
                 'type' => "INT",
                 'constraint' => 10,
                 'unsigned' => TRUE,
-                'auto_increment' => TRUE,
-                'unique' => TRUE
+                'auto_increment' => TRUE
             ],
             // ユーザーID
             'user_id' => [

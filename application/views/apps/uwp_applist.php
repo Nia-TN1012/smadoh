@@ -211,7 +211,7 @@
 			$( '#upload_btn_icon' ).removeClass( "fa-upload" ).addClass( "fa-spinner fa-spin" );
 			$( '#upload_btn_text' ).text( "アップロード中" );
 			var formData = new FormData();
-			formData.append( 'appx_file', $( '#upload_appx_path' ).prop( 'files' )[0] );
+			formData.append( 'app_file', $( '#upload_appx_path' ).prop( 'files' )[0] );
 			formData.append( 'app_version', $( '#upload_app_ver' ).val() );
             
             $.ajax({

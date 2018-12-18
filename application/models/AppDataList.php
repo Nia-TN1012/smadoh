@@ -42,6 +42,19 @@ class AppDataList extends CI_Model {
 	}
 
 	/**
+	 * ディレクトリ識別用のハッシュ値を生成します。
+	 * 
+	 * @param string	platform		プラットフォーム
+	 * @param string	environment		環境
+	 * @param string	additional_key	ハッシュの元にする追加のキー（任意）
+	 * 
+	 * @return string	ハッシュ値（SHA-256）	
+	 */
+	public static function generate_dir_hash( $platform, $environment, $additional_key = "" ) {
+		return hash( "sha256", "{$platform}-{$environment}-".time()."-".$additional_key );
+	}
+
+	/**
 	 * 配布IDを指定して、アプリデータを取得します。
 	 * 
 	 * @param string	platform		プラットフォーム
@@ -60,19 +73,21 @@ class AppDataList extends CI_Model {
 	}
 
 	/**
-	 * 最新の配布IDを取得します。
+	 * ディレクトリ識別用ハッシュ値を指定して、アプリデータを取得します。
 	 * 
 	 * @param string	platform		プラットフォーム
 	 * @param string	environment		環境
+	 * @param string	dir_hash		ディレクトリ識別用ハッシュ値
 	 * 
-	 * @return int		最新の配布ID（1個も登録されていない場合、0）
+	 * @return array	成功時: アプリデータ / 失敗時: null
 	 */
-	public function get_latest_ditrib_id( $platform, $environment ) {
-		$this->db->select_max( 'distrib_id' )
-				->from( $platform."_".$environment );
+	public function get_app_data_by_dir_hash( $platform, $environment, $dir_hash ) {
+		$this->db->from( $platform."_".$environment )
+				->where( 'dir_hash', $dir_hash );
+
 		$result = $this->db->get()->result_array();
 
-		return !empty( $result ) ? $result[0]['distrib_id'] : 0;
+		return !empty( $result ) ? $result[0] : null;
 	}
 
 	/**
@@ -81,13 +96,15 @@ class AppDataList extends CI_Model {
 	 * @param string	platform		プラットフォーム
 	 * @param string	environment		環境
 	 * @param string	app_ver			アプリのバージョン
+	 * @param string	dir_hash		ディレクトリ識別用ハッシュ値
 	 * 
 	 * @return bool		成功時: true / 失敗時: false
 	 */
-	public function add_app_data( $platform, $environment, $app_ver ) {
+	public function add_app_data( $platform, $environment, $app_ver, $dir_hash ) {
 		$data = [
-			'app_version' => $app_ver,
-			'upload_time' => date( "Y-m-d H:i:s" )
+			'app_version'	=> $app_ver,
+			'dir_hash'		=> $dir_hash,
+			'upload_time'	=> date( "Y-m-d H:i:s" )
 		];
 		return $this->db->insert( $platform."_".$environment, $data );
 	}

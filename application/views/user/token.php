@@ -5,7 +5,7 @@
     <br class="container mt-5" />
     <h2><i class="fas fa-list"></i> APIトークン一覧</h2>
     <div class="float-right">
-        <button type="button" class="m-1 btn btn-primary" id="create_token"><i id="create_token_btn_icon" class="fas fa-plus"></i> <span id="create_token_btn_text">新しいトークン作成<span></button>
+        <button type="button" class="m-1 btn btn-primary" id="create_token"><i id="create_token_btn_icon" class="fas fa-plus"></i> <span id="create_token_btn_text">新しいAPIトークン発行<span></button>
     </div>
     <table class="table table-hover shadow-sm">
         <thead>
@@ -46,144 +46,321 @@
     <br class="container mt-5" />
     <div class="card">
         <div class="card-header bg-info text-white">
-            <i class="fas fa-info-circle"></i> APIトークンでできること
+            <i class="fas fa-info-circle"></i> 使い方
         </div>
         <div class="card-body">
             <ul>
-                <li>APIトークンを利用することで、REST APIを使って、アプリの登録などを行うことができます。</li>
+                <li>APIトークンを利用することで、REST APIを使って、アプリデータの登録などを行うことができます。</li>
                 <?php if( $this->config->item( 'token_period' ) > 0 ): ?>
                 <li>APIトークンの有効期限は、生成から<?= $this->config->item( 'token_period' ) ?>ヶ月です。有効期限切れのAPIトークンは使用できません。（認証エラーになります。）</li>
                 <?php endif ?>
-                <li>APIトークンは1ユーザーにつき、3つまで作成できます。4つ目以降を作成したい場合、不要なAPIトークンを削除してから行ってください。</li>
-                <li>作成したAPIトークンは盗難されないようにご注意ください。</li>
+                <li>APIトークンは1ユーザーにつき、<?= $this->config->item( 'token_slot_num' ) ?>個まで発行できます。<?= $this->config->item( 'token_slot_num' ) + 1 ?>個目以降を発行したい場合、不要なAPIトークンを削除してから行ってください。</li>
+                <li>発行したAPIトークンは盗難されないようにご注意ください。</li>
             </ul>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>操作</th>
-                        <th>メソッド</th>
-                        <th>リクエストURL</th>
-                        <th>URLパラメータ / リクエストボディ</th>
-                        <th>必要な権限</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>APIトークンに紐づいたユーザー情報の取得</th>
-                        <td>GET</td>
-                        <td><?= site_url( 'api/v1/user/info' ) ?></td>
-                        <td>なし</td>
-                        <td>ユーザー以上</td>
-                    </tr>
-                    <tr>
-                        <th>ユーザーリスト</th>
-                        <td>GET</td>
-                        <td><?= site_url( 'api/v1/user/list' ) ?></td>
-                        <td>
-                            <ul>
-                                <li>num = 最大取得数（デフォルトは10）</li>
-                                <li>offset = オフセット（デフォルトは0）</li>
-                            </ul>
-                        </td>
-                        <td>全権限</td>
-                    </tr>
-                    <tr>
-                        <th>アプリのリスト</th>
-                        <td>GET</td>
-                        <td><?= site_url( 'api/v1/app/${platform}/${environment}/list' ) ?></td>
-                        <td>
-                            <ul>
-                                <li>num = 最大取得数（デフォルトは10）</li>
-                                <li>offset = オフセット（デフォルトは0）</li>
-                            </ul>
-                        </td>
-                        <td>全権限</td>
-                    </tr>
-                    <tr>
-                        <th>アプリの登録（iOS版）</th>
-                        <td>POST</td>
-                        <td><?= site_url( 'api/v1/app/ios/${environment}/register' ) ?></td>
-                        <td>
-                            <ul>
-                                <li>ipa_file: アップロードするipaファイル</li>
-                                <li>app_ver: アプリのバージョン（X.XX.XX）</li>
-                            </ul>
-                        </td>
-                        <td>アプリ管理者以上</td>
-                    </tr>
-                    <tr>
-                        <th>アプリの登録（Android版）</th>
-                        <td>POST</td>
-                        <td><?= site_url( 'api/v1/app/android/${environment}/register' ) ?></td>
-                        <td>
-                            <ul>
-                                <li>apk_file: アップロードするapkファイル</li>
-                                <li>app_ver: アプリのバージョン（X.XX.XX）</li>
-                            </ul>
-                        </td>
-                        <td>アプリ管理者以上</td>
-                    </tr>
-                    <tr>
-                        <th>アプリの登録（UWP版）</th>
-                        <td>POST</td>
-                        <td><?= site_url( 'api/v1/app/uwp/${environment}/register' ) ?></td>
-                        <td>
-                            <ul>
-                                <li>appx_file: アップロードするappxbundleファイル</li>
-                                <li>app_ver: アプリのバージョン（X.XX.XX）</li>
-                            </ul>
-                        </td>
-                        <td>アプリ管理者以上</td>
-                    </tr>
-                    <tr>
-                        <th>サイドロード用証明書情報の取得（UWP版）</th>
-                        <td>GET</td>
-                        <td><?= site_url( 'api/v1/app/uwp/${environment}/current-cert' ) ?></td>
-                        <td>
-                            なし
-                        </td>
-                        <td>全権限</td>
-                    </tr>
-                    <tr>
-                        <th>サイドロード用証明書の更新（UWP版）</th>
-                        <td>POST</td>
-                        <td><?= site_url( 'api/v1/app/uwp/${environment}/update-cert' ) ?></td>
-                        <td>
-                            <ul>
-                                <li>cert_file: アップロードするサイドロード用証明書ファイル（.cer）</li>
-                            </ul>
-                        </td>
-                        <td>アプリ管理者以上</td>
-                    </tr>
-                </tbody>
-            </table>
             <div class="card">
                 <div class="card-header bg-info text-white">
-                    <i class="fas fa-info-circle"></i> 備考
+                    <i class="fas fa-info-circle"></i> 利用可能なREST API
                 </div>
                 <div class="card-body">
-                    <ul>
-                        <li><code>${platform}</code>: プラットフォーム（ios / android / uwp）</li>
-                        <li><code>${environment}</code>: 環境（develop / staging / production）</li>
-                    </ul>
+                    <div class="card">
+                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="false" aria-controls="collapseUserInfo">
+                            <span class="badge badge-info">GET</span> <b>/user/info</b>
+                            <div class="float-right">APIトークンに紐づいたユーザーデータを取得します。</div>
+                        </div>
+                        <div class="collapse" id="collapseUserInfo">
+                            <div class="card-body">
+                                リクエスト
+                                <pre class="bg-dark text-white p-2">curl -X GET -H "token: ${APIトークン}" <?= site_url( 'api/v1/user/info' ) ?></pre>
+                                レスポンス
+                                <pre class="bg-dark text-white p-2">{
+    "status_code": 200,
+    "response": {
+        "id": "1",
+        "user_id": "admin",
+        "display_user_name": "Admin",
+        "email": "admin@example.com",
+        "role": "1"
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseUserList">
+                            <span class="badge badge-info">GET</span> <b>/user/list</b>
+                            <div class="float-right"><?= $this->config->item( 'home_title' ) ?>に登録されているユーザーリストを取得します。</div>
+                        </div>
+                        <div class="collapse" id="collapseUserList">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>パラメーター</th>
+                                            <th>型</th>
+                                            <th>概要</th>
+                                            <th>備考</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>num</th>
+                                            <td><span class="badge badge-info">Integer</span></td>
+                                            <td>取得する人数</td>
+                                            <td>未指定の場合のデフォルト値は 10 です。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>offset</th>
+                                            <td><span class="badge badge-info">Integer</span></td>
+                                            <td>オフセット値</td>
+                                            <td>未指定の場合のデフォルト値は 0 です。</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                リクエスト
+                                <pre class="bg-dark text-white p-2">curl -X GET -H "token: ${APIトークン}" <?= site_url( 'api/v1/user/list?num=10&offset=0' ) ?></pre>
+                                レスポンス
+                                <pre class="bg-dark text-white p-2">{
+    "status_code": 200,
+    "response": [
+        {
+            "id": "1",
+            "user_id": "admin",
+            "display_user_name": "Admin",
+            "email": "admin@example.com",
+            "role": "1",
+            "register_time": "2018-12-12 21:44:19"
+        },
+        {
+            "id": "4",
+            "user_id": "monkey",
+            "display_user_name": "お猿さん",
+            "email": "",
+            "role": "3",
+            "register_time": "2018-12-13 20:50:13"
+        }
+    ],
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseApplist" aria-expanded="false" aria-controls="collapseApplist">
+                            <span class="badge badge-info">GET</span> <b>/apps/{platform}/{environment}/list</b>
+                            <div class="float-right">プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>に登録されているアプリデータリストを取得します。</div>
+                        </div>
+                        <div class="collapse" id="collapseApplist">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>パラメーター</th>
+                                            <th>型</th>
+                                            <th>概要</th>
+                                            <th>備考</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>{platform}</th>
+                                            <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>プラットフォーム（ios, android, uwp）</td>
+                                            <td>app_configで指定したプラットフォームが無効化されている場合、status_codeは404となります。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{environment}</th>
+                                            <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>環境（develop, staging, production）</td>
+                                            <td>app_configで指定した環境が無効化されている場合、status_codeは404となります。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>num</th>
+                                            <td><span class="badge badge-info">Integer</span></td>
+                                            <td>取得する人数</td>
+                                            <td>未指定の場合のデフォルト値は 10 です。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>offset</th>
+                                            <td><span class="badge badge-info">Integer</span></td>
+                                            <td>オフセット値</td>
+                                            <td>未指定の場合のデフォルト値は 0 です。</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                リクエスト
+                                <pre class="bg-dark text-white p-2">curl -X GET -H "token: ${APIトークン}" <?= site_url( 'api/v1/apps/ios/develop/list?num=10&offset=0' ) ?></pre>
+                                レスポンス
+                                <pre class="bg-dark text-white p-2">{
+    "status_code": 200,
+    "response": [
+        {
+            "distrib_id": "15",
+            "app_version": "1.0.15",
+            "upload_time": "2018-12-13 20:34:10"
+        },
+        {
+            "distrib_id": "14",
+            "app_version": "1.0.14",
+            "upload_time": "2018-12-13 14:40:54"
+        },
+        ...
+        {
+            "distrib_id": "6",
+            "app_version": "1.0.6",
+            "upload_time": "2018-12-01 10:28:50"
+        }
+    ]
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseAppRegister" aria-expanded="false" aria-controls="collapseAppRegister">
+                            <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/{platform}/{environment}/register</b>
+                            <div class="float-right">プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>にアプリパッケージをアップロードし、データを登録します。</div>
+                        </div>
+                        <div class="collapse" id="collapseAppRegister">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>パラメーター / リクエストボディ</th>
+                                            <th>型</th>
+                                            <th>概要</th>
+                                            <th>備考</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>{platform}</th>
+                                            <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>プラットフォーム（ios, android, uwp）</td>
+                                            <td>app_configで指定したプラットフォームが無効化されている場合、status_codeは404となります。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{environment}</th>
+                                            <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>環境（develop, staging, production）</td>
+                                            <td>app_configで指定した環境が無効化されている場合、status_codeは404となります。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>app_ver</th>
+                                            <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>アプリのバージョン</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>app_file</th>
+                                            <td><span class="badge badge-info">File</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>アップロードするアプリパッケージファイル</td>
+                                            <td>
+                                                <code>type</code>に指定するMIMEタイプは以下の通りです。
+                                                <ul>
+                                                    <li>iOS（ipaファイル）: <code>application/octet-stream</code></li>
+                                                    <li>Android（apkファイル）: <code>application/vnd.android.package-archive</code></li>
+                                                    <li>UWP（appxbundleファイル）: <code>application/appxbundle</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                リクエスト
+                                <pre class="bg-dark text-white p-2">curl -X POST -H "token: ${APIトークン}" -H "app_ver: 1.0.0" -F "app_file=@<?= $this->config->item( 'ios_develop_ipa_name' ) ?>.ipa;type=application/octet-stream" <?= site_url( 'api/v1/apps/ios/develop/register' ) ?></pre>
+                                レスポンス
+                                <pre class="bg-dark text-white p-2">{
+    "status_code": 200,
+    "response": {
+        "distrib_id": "1",
+        "app_version": "1.0.0",
+        "upload_time": "2018-12-01 10:28:50"
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUWPUpdateCert" aria-expanded="false" aria-controls="collapseUWPUpdateCert">
+                            <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/uwp/{environment}/cert/update</b>
+                            <div class="float-right">環境を指定して、UWP版のサイドロード用証明書を更新します。</div>
+                        </div>
+                        <div class="collapse" id="collapseUWPUpdateCert">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>パラメーター / リクエストボディ</th>
+                                            <th>型</th>
+                                            <th>概要</th>
+                                            <th>備考</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>{environment}</th>
+                                            <td><span class="badge badge-info">String</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>環境（develop, staging, production）</td>
+                                            <td>app_configで指定した環境が無効化されている場合、status_codeは404となります。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>cert_file</th>
+                                            <td><span class="badge badge-info">File</span> <span class="badge badge-danger">必須</span></td>
+                                            <td>アップロードする証明書ファイル（.cer）</td>
+                                            <td><code>type</code>に指定するMIMEタイプは<code>application/pkix-cert</code>です。</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                リクエスト
+                                <pre class="bg-dark text-white p-2">curl -X POST -H "token: ${APIトークン}" <?= site_url( 'api/v1/apps/uwp/develop/cert/update' ) ?></pre>
+                                レスポンス
+                                <pre class="bg-dark text-white p-2"></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <br class="container mt-5" />
+                    <div class="card">
+                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseStatusCode" aria-expanded="false" aria-controls="collapseStatusCode">
+                            <i class="fas fa-code"></i> ステータスコード（<code>status_code</code>）
+                        </div>
+                        <div class="collapse" id="collapseStatusCode">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ステータスコード</th>
+                                            <th>概要</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>200</th>
+                                            <td>OK: リクエストは正常に処理されました。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>400</th>
+                                            <td>Bad Request: リクエストに誤りがあります。パラメーターやリクエストボディなどに必要な値がないか、無効な値が指定された時に返します。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>401</th>
+                                            <td>Unauthorized: 認証エラーです。トークンが無効な時に返されます。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>403</th>
+                                            <td>Frobidden: そのAPIを実行するのに必要な権限がありません。例えば <span class="badge badge-warning">アプリ管理者以上の権限必要</span> のバッジがあるAPIは「アプリ管理者」または「システム管理者」権限を持っている必要があります。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>404</th>
+                                            <td>Not Found: 指定したエンドポイントが存在しない、もしくは、指定したプラットフォーム及び環境がapp_configによって無効化されています。</td>
+                                        </tr>
+                                        <tr>
+                                            <th>500</th>
+                                            <td>Internal Server Error: リクエストの処理中にサーバーエラーが発生しました。</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div>
                 </div>
-            <div>
-            <div class="card">
-                <div class="card-header bg-light">
-                    <i class="fas fa-code"></i> <?= $this->config->item( 'ios_develop_name' ) ?> に、ipaファイルをアップロード
-                </div>
-                <div class="card-body">
-                    <code><?= h( '$ curl -X POST -H "token: ${APIトークン}" -H "app_ver: 1.0.0" -F "ipa_file=@test.ipa;type=application/octet-stream" '.site_url( 'api/v1/apps/ios/develop/register' ) ) ?></code>
-                </div>
-            <div>
-            <div class="card">
-                <div class="card-header bg-light">
-                    <i class="fas fa-code"></i> ステータスコード（<code>status_code</code>）
-                </div>
-                <div class="card-body">
-                    正常に処理をした場合は <b>200</b>、リクエストに誤りがある場合は <b>400</b>、認証エラーの場合は <b>401</b>、必要な権限がない場合 <b>403</b>、サーバーエラーの場合は <b>500</b> が返ります。
-                </div>
-            <div>
+            </div>
         </div>
     <div>
 </div>

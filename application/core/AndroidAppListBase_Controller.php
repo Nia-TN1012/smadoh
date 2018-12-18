@@ -67,7 +67,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 			return;
 		}
 
-		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$distrib_id}/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" );
+		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$app_data['dir_hash']}/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" );
 		if( !file_exists( $filepath ) ) {
 			$this->show_error( "apkファイルが見つかりません", 404, "apkファイルが削除された可能性があります。" );
 			return;
@@ -101,7 +101,7 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
             $res['message'] = "エラー: 不正なリクエストです。";
         }
 
-		if( !isset( $_FILES['apk_file']['tmp_name'] ) ) {
+		if( !isset( $_FILES['app_file']['tmp_name'] ) ) {
 			$res['error'] = true;
 			$res['message'] = "エラー: apkファイルが指定されていません。";
 		}
@@ -109,27 +109,27 @@ class AndroidAppListBase_Controller extends AppListBase_Controller {
 			$res['error'] = true;
 			$res['message'] = "エラー: バージョンが指定されていません。";
 		}
-		else if( !is_uploaded_file( $_FILES['apk_file']['tmp_name'] ) ) {
+		else if( !is_uploaded_file( $_FILES['app_file']['tmp_name'] ) ) {
 			$res['error'] = true;
 			$res['message'] = "エラー: apkファイルのアップロードに失敗しました。";
 		}
 		else {
-			$new_distrib_id = intval( $this->appdatalist->get_latest_ditrib_id( static::PLATFORM, static::ENVIRONMENT ) ) + 1;
-			$upload_dest_path = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$new_distrib_id}";
-			if( !is_dir( $upload_dest_path ) && !mkdir( $upload_dest_path, 0755, true ) ||
-				!move_uploaded_file( $_FILES['apk_file']['tmp_name'], $upload_dest_path."/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" ) ) ) {
+			$dir_hash = AppDataList::generate_dir_hash( static::PLATFORM, static::ENVIRONMENT, $_SESSION['login_user_data']['user_id'] );
+			$app_ver = $_POST['app_version'];
+			if( !$this->appdatalist->add_app_data( static::PLATFORM, static::ENVIRONMENT, $app_ver, $dir_hash ) ) {
 				$res['error'] = true;
 				$res['message'] = "エラー: apkファイルのアップロードに失敗しました。";
 			}
 			else {
-				$app_ver = $_POST['app_version'];
-
-				if( !$this->appdatalist->add_app_data( static::PLATFORM, static::ENVIRONMENT, $app_ver ) ) {
+				$app_data = $this->appdatalist->get_app_data_by_dir_hash( static::PLATFORM, static::ENVIRONMENT, $dir_hash );
+				$upload_dest_path = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$dir_hash}";
+				if( !is_dir( $upload_dest_path ) && !mkdir( $upload_dest_path, 0755, true ) ||
+					!move_uploaded_file( $_FILES['app_file']['tmp_name'], $upload_dest_path."/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_apk_name' ).".apk" ) ) ) {
 					$res['error'] = true;
 					$res['message'] = "エラー: apkファイルのアップロードに失敗しました。";
 				}
 				else {
-					$this->feedmodel->add_feed( static::PLATFORM.'_'.static::ENVIRONMENT.'_name', $_SESSION['login_user_data']['display_user_name']." さんが、".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_name' )." #{$new_distrib_id} をアップロードしました。" );
+					$this->feedmodel->add_feed( static::PLATFORM.'_'.static::ENVIRONMENT.'_name', $_SESSION['login_user_data']['display_user_name']." さんが、".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_name' )." #{$app_data['distrib_id']} をアップロードしました。" );
 					$res['error'] = false;
 					$res['message'] = "apkファイルのアップロードしました。";
 				}

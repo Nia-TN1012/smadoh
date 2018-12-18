@@ -15,8 +15,7 @@ class Migration_User extends CI_Migration {
                 'type' => "INT",
                 'constraint' => 10,
                 'unsigned' => TRUE,
-                'auto_increment' => TRUE,
-                'unique' => TRUE
+                'auto_increment' => TRUE
             ],
             // ユーザーID
             'user_id' => [
@@ -55,7 +54,7 @@ class Migration_User extends CI_Migration {
         ];
         $this->dbforge->add_field( $fields );
         $this->dbforge->add_key( 'id', TRUE );
-        $this->dbforge->create_table( "user" );
+        $this->dbforge->create_table( "user", TRUE );
 
         // Adminユーザー
         $gen_date = date( "Y-m-d H:i:s" );

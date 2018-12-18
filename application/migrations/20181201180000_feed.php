@@ -15,8 +15,7 @@ class Migration_Feed extends CI_Migration {
                 'type' => "INT",
                 'constraint' => 10,
                 'unsigned' => TRUE,
-                'auto_increment' => TRUE,
-                'unique' => TRUE
+                'auto_increment' => TRUE
             ],
             // カテゴリ
             'category' => [
