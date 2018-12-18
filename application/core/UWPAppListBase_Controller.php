@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class UWPAppListBase_Controller extends AppListBase_Controller {
 
     const PLATFORM = "uwp";
-    const ENVIRONMENT = "develop";
+    const ENVIRONMENT = "unknown";
 
     public function __construct() {
 		parent::__construct();

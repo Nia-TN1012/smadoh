@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class iOSAppListBase_Controller extends AppListBase_Controller {
 
     const PLATFORM = "ios";
-    const ENVIRONMENT = "develop";
+    const ENVIRONMENT = "unknown";
     
 	/**
 	 * アプリデータリストを取得し、View向けに構築します。

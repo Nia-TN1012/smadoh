@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class AndroidAppListBase_Controller extends AppListBase_Controller {
 
     const PLATFORM = "android";
-    const ENVIRONMENT = "develop";
+    const ENVIRONMENT = "unknown";
 
 	/**
 	 * アプリデータリストを取得し、View向けに構築します。
