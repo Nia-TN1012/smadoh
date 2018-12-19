@@ -63,8 +63,11 @@
                 </div>
                 <div class="card-body">
                     <div class="card">
-                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="false" aria-controls="collapseUserInfo">
-                            <i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> <b>/user/info</b>
+                        <div class="card-header bg-light">
+                            <i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> 
+                            <a class="text-body" href="#collapseUserInfo" role="tab" data-toggle="collapse" data-target="#collapseUserInfo" aria-expanded="false" aria-controls="collapseUserInfo">
+                                <b>/user/info</b>
+                            </a>
                             <div class="float-right">APIトークンに紐づいたユーザーデータを取得します。</div>
                         </div>
                         <div class="collapse" id="collapseUserInfo">
@@ -86,8 +89,11 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseUserList">
-                            <i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> <b>/user/list</b>
+                        <div class="card-header bg-light">
+                            <i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> 
+                            <a class="text-body" href="#collapseUserList" role="tab" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseUserList">
+                                <b>/user/list</b>
+                            </a>
                             <div class="float-right"><?= $this->config->item( 'home_title' ) ?>に登録されているユーザーリストを取得します。</div>
                         </div>
                         <div class="collapse" id="collapseUserList">
@@ -144,8 +150,11 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseApplist" aria-expanded="false" aria-controls="collapseApplist">
-							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> <b>/apps/{platform}/{environment}/list</b>
+                        <div class="card-header bg-light">
+							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-info">GET</span> 
+                            <a class="text-body" href="#collapseApplist" role="tab" data-toggle="collapse" data-target="#collapseApplist" aria-expanded="false" aria-controls="collapseApplist">
+                                <b>/apps/{platform}/{environment}/list</b>
+                            </a>
                             <div class="float-right">プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>に登録されているアプリデータリストを取得します。</div>
                         </div>
                         <div class="collapse" id="collapseApplist">
@@ -217,9 +226,12 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseAppRegister" aria-expanded="false" aria-controls="collapseAppRegister">
-							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/{platform}/{environment}/register</b>
-                            <div class="float-right">プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>にアプリパッケージをアップロードし、データを登録します。</div>
+                        <div class="card-header bg-light">
+							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-success">POST</span> 
+                            <a class="text-body" href="#collapseAppRegister" role="tab" data-toggle="collapse" data-target="#collapseAppRegister" aria-expanded="false" aria-controls="collapseAppRegister">
+                                <b>/apps/{platform}/{environment}/register</b>
+                            </a>
+                            <div class="float-right"><span class="badge badge-warning">アプリ管理者以上の権限必要</span> プラットフォームと環境を指定して、<?= $this->config->item( 'home_title' ) ?>にアプリパッケージをアップロードし、データを登録します。</div>
                         </div>
                         <div class="collapse" id="collapseAppRegister">
                             <div class="card-body">
@@ -282,9 +294,12 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseUWPUpdateCert" aria-expanded="false" aria-controls="collapseUWPUpdateCert">
-							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-success">POST</span> <span class="badge badge-warning">アプリ管理者以上の権限必要</span> <b>/apps/uwp/certificate/update</b>
-                            <div class="float-right">環境を指定して、UWP版のサイドロード用証明書を更新します。</div>
+                        <div class="card-header bg-light">
+							<i class="fas fa-expand-arrows-alt"></i> <span class="badge badge-success">POST</span> 
+                            <a class="text-body" href="#collapseUWPUpdateCert" role="tab" data-toggle="collapse" data-target="#collapseUWPUpdateCert" aria-expanded="false" aria-controls="collapseUWPUpdateCert">
+                                <b>/apps/uwp/certificate/update</b>
+                            </a>
+                            <div class="float-right"><span class="badge badge-warning">アプリ管理者以上の権限必要</span> 環境を指定して、UWP版のサイドロード用証明書を更新します。</div>
                         </div>
                         <div class="collapse" id="collapseUWPUpdateCert">
                             <div class="card-body">
@@ -337,15 +352,18 @@
                     </div>
                     <br class="container mt-5" />
                     <div class="card">
-                        <div class="card-header bg-light" data-toggle="collapse" data-target="#collapseStatusCode" aria-expanded="false" aria-controls="collapseStatusCode">
-							<i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-code"></i> ステータスコード（<code>status_code</code>）
+                        <div class="card-header bg-light">
+							<i class="fas fa-expand-arrows-alt"></i> 
+                            <a class="text-body" href="#collapseStatusCode" role="tab" data-toggle="collapse" data-target="#collapseStatusCode" aria-expanded="false" aria-controls="collapseStatusCode">
+                                <i class="fas fa-code"></i> <b>ステータスコード</b>
+                            </a>
                         </div>
                         <div class="collapse" id="collapseStatusCode">
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>ステータスコード</th>
+                                            <th><code>status_code</code></th>
                                             <th>概要</th>
                                         </tr>
                                     </thead>

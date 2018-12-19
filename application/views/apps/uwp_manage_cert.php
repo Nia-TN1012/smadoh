@@ -62,7 +62,8 @@
         </div>
         <div class="card-body">
             <p>証明書ファイルに含まれるModulusの値（16進数）に対するSHA-256のハッシュ値を求めます。</p>
-			<code>openssl x509 -modulus -noout -inform der -in {証明書ファイル名}.cer | awk -F '=' '{print $2}' | tr '[A-F]' '[a-f]' | tr -d '\n' | openssl dgst -sha256</code>
+            Mac / Linuxの場合
+			<pre class="bg-dark text-white p-2">$ openssl x509 -modulus -noout -inform der -in {証明書ファイル名}.cer | awk -F '=' '{print $2}' | tr '[A-F]' '[a-f]' | tr -d '\n' | openssl dgst -sha256</pre>
 		</div>
 	</div>
 </div>

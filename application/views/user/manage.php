@@ -74,7 +74,10 @@
             </ul>
             <div class="card">
                 <div class="card-header" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
-                    <i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-shield-alt"></i> ロールの権限範囲
+                    <i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-shield-alt"></i> 
+                    <a class="text-body" href="#collapseRole" role="tab" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
+                        ロールの権限範囲
+                    </a>
                 </div>
                 <div class="collapse" id="collapseRole">
                     <div class="card-body">
