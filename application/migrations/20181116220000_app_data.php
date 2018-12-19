@@ -1,14 +1,8 @@
 <?php
 
 class Migration_App_data extends CI_Migration {
-    public function __construct()
-    {   
-        parent::__construct();
-    }
 
-    // アップデート処理
-    public function up()
-    {   
+    public function up() {   
         $this->create_table_add_field( 'ios_develop' );
         $this->create_table_add_field( 'ios_staging' );
         $this->create_table_add_field( 'ios_production' );
@@ -20,8 +14,7 @@ class Migration_App_data extends CI_Migration {
         $this->create_table_add_field( 'uwp_production' );
     }
 
-    private function create_table_add_field( $table )
-    {
+    private function create_table_add_field( $table ) {
         $fields = [
             // 配布ID
             'distrib_id' => [
@@ -51,9 +44,7 @@ class Migration_App_data extends CI_Migration {
         $this->dbforge->create_table( $table );
     }
 
-    // ロールバック処理
-    public function down()
-    {   
+    public function down() {   
         $this->dbforge->drop_table( 'ios_develop', TRUE );
         $this->dbforge->drop_table( 'ios_staging', TRUE );
         $this->dbforge->drop_table( 'ios_production', TRUE );

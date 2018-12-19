@@ -1,14 +1,8 @@
 <?php
 
 class Migration_User_Token extends CI_Migration {
-    public function __construct()
-    {   
-        parent::__construct();
-    }
 
-    // アップデート処理
-    public function up()
-    {   
+    public function up() {   
         $fields = [
             // ID
             'id' => [
@@ -28,9 +22,11 @@ class Migration_User_Token extends CI_Migration {
                 'constraint' => 255,
                 'unique' => TRUE
             ],
+            // 発行日時
             'create_time' => [
                 'type' => "DATETIME"
             ],
+            // 有効期限
             'expire_time' => [
                 'type' => "DATETIME"
             ]
@@ -41,9 +37,7 @@ class Migration_User_Token extends CI_Migration {
         $this->dbforge->create_table( "user_token" );
     }   
 
-    // ロールバック処理
-    public function down()
-    {   
+    public function down() {   
         $this->dbforge->drop_table( 'user_token', TRUE );
     }
 }

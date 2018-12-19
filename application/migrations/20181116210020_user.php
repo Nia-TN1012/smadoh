@@ -1,14 +1,8 @@
 <?php
 
 class Migration_User extends CI_Migration {
-    public function __construct()
-    {   
-        parent::__construct();
-    }
 
-    // アップデート処理
-    public function up()
-    {   
+    public function up() {   
         $fields = [
             // ID
             'id' => [
@@ -45,9 +39,11 @@ class Migration_User extends CI_Migration {
                 'unsigned' => TRUE,
                 'default' => 1
             ],
+            // 登録日時
             'register_time' => [
                 'type' => "DATETIME"
             ],
+            // 更新日時
             'update_time' => [
                 'type' => "DATETIME"
             ]
@@ -70,9 +66,7 @@ class Migration_User extends CI_Migration {
         $this->db->insert( 'user', $data );
     }
 
-    // ロールバック処理
-    public function down()
-    {   
+    public function down() {   
         $this->dbforge->drop_table( 'user', TRUE );
     }
 }

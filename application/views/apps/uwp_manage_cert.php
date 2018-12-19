@@ -27,7 +27,7 @@
             <?php if( isset( $cert_list ) ): ?>
             <?php foreach( $cert_list as $row ): ?>
             <tr>
-                <td class="align-middle"><?= h( $row['type_key_name'] ) ?></td>
+                <td class="align-middle"><?= h( $row['environment_name'] ) ?></td>
                 <td class="align-middle"><?= h( $row['hash_value'] ) ?></td>
                 <td class="align-middle"><?= h( $row['memo'] ) ?></td>
                 <td class="align-middle"><?= h( $row['upload_time'] ) ?></td>
@@ -45,7 +45,7 @@
                 </td>
                 <td>
                     <?php if( $row['status'] == UWPCertModel::UWP_CERT_AVAILABLE ): ?>
-                    <button type="button" class="btn btn-sm btn-danger" id="disable_cert_<?= h( $row['type_key'] ) ?>"><i id="disable_icon_<?= h( $row['type_key'] ) ?>" class="fas fa-ban"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" id="disable_cert_<?= h( $row['environment'] ) ?>"><i id="disable_icon_<?= h( $row['environment'] ) ?>" class="fas fa-ban"></i></button>
                     <?php endif ?>
                 </td>
             <?php endforeach ?>
@@ -82,9 +82,9 @@
                         <label class="col-form-label">種別</label>
 						<span class="badge badge-warning">選択</span>
                         <select id="target_type" name="target_type" class="form-control">
-                            <option value="<?= UWPCertModel::TYPE_KEY_DEVELOP ?>"><?= UWPCertModel::TYPE_KEY_NAME_DEVELOP ?></option>
-                            <option value="<?= UWPCertModel::TYPE_KEY_STAGING ?>"><?= UWPCertModel::TYPE_KEY_NAME_STAGING ?></option>
-                            <option value="<?= UWPCertModel::TYPE_KEY_PRODUCTION ?>"><?= UWPCertModel::TYPE_KEY_NAME_PRODUCTION ?></option>
+                            <option value="<?= UWPCertModel::ENVIRONMENT_DEVELOP ?>"><?= UWPCertModel::ENVIRONMENT_NAME_DEVELOP ?></option>
+                            <option value="<?= UWPCertModel::ENVIRONMENT_STAGING ?>"><?= UWPCertModel::ENVIRONMENT_NAME_STAGING ?></option>
+                            <option value="<?= UWPCertModel::ENVIRONMENT_PRODUCTION ?>"><?= UWPCertModel::ENVIRONMENT_NAME_PRODUCTION ?></option>
                         </select>
                         <hr/>
 						<label class="col-form-label">証明書ファイル（.cer）</label>
@@ -141,16 +141,16 @@
         });
 
         $( '[id ^= disable_cert_]' ).on( 'click', function() {
-            var type_key = $( this ).attr( 'id' ).replace( "disable_cert_", "" );
+            var environment = $( this ).attr( 'id' ).replace( "disable_cert_", "" );
             $( this ).prop( 'disabled', true );
-			$( '#disable_icon_' + type_key ).removeClass( "fa-ban" ).addClass( "fa-spinner fa-spin" );
+			$( '#disable_icon_' + environment ).removeClass( "fa-ban" ).addClass( "fa-spinner fa-spin" );
             if( confirm( "選択したサイドロード用証明書を無効化してよろしいですか？\n（※再度有効にしたい時は、新しい証明書をアップロードします。）" ) ) {
                 $.ajax({
                     type: "POST",
                     url: "<?= site_url( "apps/uwp/manage-certificate/disable-cert" ) ?>",
                     dataType: "json",
                     data: { 
-                        type_key: type_key
+                        environment: environment
                     }
                 }).done( function( response ){
 					alert( response.message );
@@ -160,13 +160,13 @@
 				}).fail( function( response ) {
 					alert( "エラー: 選択したサイドロード用証明書の無効化に失敗しました。" );
 				}).always( function() {
-                    $( '#disable_icon_' + type_key ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-ban" );
-                    $( '#disable_cert_' + type_key ).prop( 'disabled', false );
+                    $( '#disable_icon_' + environment ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-ban" );
+                    $( '#disable_cert_' + environment ).prop( 'disabled', false );
                 });
             }
             else {
-                $( '#disable_icon_' + type_key ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-ban" );
-                $( '#disable_cert_' + type_key ).prop( 'disabled', false );
+                $( '#disable_icon_' + environment ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-ban" );
+                $( '#disable_cert_' + environment ).prop( 'disabled', false );
             }
         });
 		<?php endif ?>

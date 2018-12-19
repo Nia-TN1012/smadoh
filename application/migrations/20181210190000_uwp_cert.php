@@ -1,17 +1,11 @@
 <?php
 
 class Migration_UWP_Cert extends CI_Migration {
-    public function __construct()
-    {   
-        parent::__construct();
-    }
 
-    // アップデート処理
-    public function up()
-    {   
+    public function up() {   
         $fields = [
             // 種別
-            'type_key' => [
+            'environment' => [
                 'type' => "VARCHAR",
                 'constraint' => 255
             ],
@@ -40,13 +34,13 @@ class Migration_UWP_Cert extends CI_Migration {
         ];
 
         $this->dbforge->add_field( $fields );
-        $this->dbforge->add_key( 'type_key', TRUE );
+        $this->dbforge->add_key( 'environment', TRUE );
         $this->dbforge->create_table( "uwp_cert" );
 
         // 初期値
         $data = [
             [
-                'type_key'              => "develop",
+                'environment'              => "develop",
                 'hash_value'            => hash( 'sha256', "develop" ),
                 'memo'                  => "開発向けのサイドロード用証明書をアップロードしてください",
                 'create_time'           => "1970-01-01 00:00:00",
@@ -54,7 +48,7 @@ class Migration_UWP_Cert extends CI_Migration {
                 'upload_time'           => "1970-01-01 00:00:00"
             ],
             [
-                'type_key'              => "staging",
+                'environment'              => "staging",
                 'hash_value'            => hash( 'sha256', "staging" ),
                 'memo'                  => "ステージング向けのサイドロード用の証明書をアップロードしてください",
                 'create_time'           => "1970-01-01 00:00:00",
@@ -62,7 +56,7 @@ class Migration_UWP_Cert extends CI_Migration {
                 'upload_time'           => "1970-01-01 00:00:00"
             ],
             [
-                'type_key'              => "production",
+                'environment'              => "production",
                 'hash_value'            => hash( 'sha256', "production" ),
                 'memo'                  => "本番向けのサイドロード用の証明書をアップロードしてください",
                 'create_time'           => "1970-01-01 00:00:00",
@@ -73,9 +67,7 @@ class Migration_UWP_Cert extends CI_Migration {
         $this->db->insert_batch( 'uwp_cert', $data );
     }   
 
-    // ロールバック処理
-    public function down()
-    {   
+    public function down() {   
         $this->dbforge->drop_table( 'uwp_cert', TRUE );
     }
 }

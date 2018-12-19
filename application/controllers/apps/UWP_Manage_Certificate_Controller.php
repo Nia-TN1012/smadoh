@@ -40,8 +40,8 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
         $now_date = date( "Y-m-d H:i:s" );
 		foreach( $cert_list as $row ) {
 			$cert_view_list[] = [
-				'type_key' 		    => $row['type_key'],
-				'type_key_name' 	=> UWPCertModel::get_type_key_name( $row['type_key'] ),
+				'environment' 		    => $row['environment'],
+				'environment_name' 	=> UWPCertModel::get_environment_name( $row['environment'] ),
 				'hash_value' 		=> $row['hash_value'],
 				'memo' 		        => $row['memo'],
 				'upload_time' 		=> $row['upload_time'],
@@ -71,7 +71,7 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
 			$res['error'] = true;
 			$res['message'] = "エラー: 証明書ファイルが指定されていません。";
 		}
-		else if( !isset( $_POST['target_type'] ) || UWPCertModel::get_type_key_name( $_POST['target_type'] ) == "不明" ) {
+		else if( !isset( $_POST['target_type'] ) || UWPCertModel::get_environment_name( $_POST['target_type'] ) == "不明" ) {
 			$res['error'] = true;
 			$res['message'] = "エラー: 不正なリクエストです。";
 		}
@@ -131,12 +131,12 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
             $res['message'] = "エラー: 不正なリクエストです。";
         }
 
-		$type_key = $this->input->post( "type_key" );
-		if( !isset( $type_key ) || UWPCertModel::get_type_key_name( $type_key ) == "不明" || !$this->uwpcertmodel->has_valid_cert( $type_key ) ) {
+		$environment = $this->input->post( "environment" );
+		if( !isset( $environment ) || UWPCertModel::get_environment_name( $environment ) == "不明" || !$this->uwpcertmodel->has_valid_cert( $environment ) ) {
             $res['error'] = true;
             $res['message'] = "エラー: 不正なリクエストです。";
 		}
-        else if( $this->uwpcertmodel->disable_cert( $type_key ) ) {
+        else if( $this->uwpcertmodel->disable_cert( $environment ) ) {
             $res['error'] = false;
             $res['message'] = "選択したサイドロード用証明書を無効化しました。";
         }

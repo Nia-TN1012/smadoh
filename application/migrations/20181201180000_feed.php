@@ -1,14 +1,8 @@
 <?php
 
 class Migration_Feed extends CI_Migration {
-    public function __construct()
-    {   
-        parent::__construct();
-    }
 
-    // アップデート処理
-    public function up()
-    {   
+    public function up() {   
         $fields = [
             // ID
             'id' => [
@@ -25,7 +19,8 @@ class Migration_Feed extends CI_Migration {
             // 情報
             'content' => [
                 'type' => "TEXT"
-            ],
+			],
+			// 作成日時
             'create_time' => [
                 'type' => "DATETIME"
             ]
@@ -36,9 +31,7 @@ class Migration_Feed extends CI_Migration {
         $this->dbforge->create_table( "feed" );
     }   
 
-    // ロールバック処理
-    public function down()
-    {   
+    public function down() {   
         $this->dbforge->drop_table( 'feed', TRUE );
     }
 }
