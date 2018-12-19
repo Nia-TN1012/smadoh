@@ -81,7 +81,7 @@
 								<li>apkファイルをダウンロードします。</li>
 								<li>
                                     Android SDKのadbコマンドで、Android端末にインストールします。<br/>
-                                    <code>adb install -r <?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apk</code>
+                                    <pre class="bg-dark text-white p-2">adb install -r <?= $this->config->item( $platform.'_'.$environment.'_apk_name' ) ?>.apk</pre>
                                 </li>
 							</ol>
 						</div>
