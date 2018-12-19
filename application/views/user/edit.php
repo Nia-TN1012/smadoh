@@ -7,7 +7,7 @@
         <div class="alert alert-danger" role="alert"><?= $message ?></div>
     <?php else: ?>
         <div class="p-5 border shadow-sm">
-            <div id="error_panel" class="alert alert-danger" role="alert"></div>
+            <div id="response_panel" class="alert alert-danger" role="alert"></div>
             <div class="row">
                 <div class="col-sm-7">
                     <form id="updateform">
@@ -55,7 +55,7 @@
                         </div>
                         <br class="container mt-5" />
                         <div>
-                            <button type="submit" id="submit_btn" class="btn btn-primary"><i id="submit_btn_icon" class="fas fa-user-check"></i> <span id="submit_btn_text">ユーザーデータ更新</span></button>
+                            <button type="submit" id="submit_btn" class="btn btn-primary"><i id="submit_btn_icon" class="fas fa-user-cog"></i> <span id="submit_btn_text">ユーザーデータ更新</span></button>
                             <button type="button" class="btn btn-secondary" onClick="window.location.href='/user/manage'"><i class="fas fa-undo-alt"></i> 戻る</button>
                         </div>
                     </form>
@@ -89,7 +89,7 @@
         $( '#updateform' ).submit( function( e ) {
             e.preventDefault();
             $( '#submit_btn' ).prop( 'disabled', true );
-			$( '#submit_btn_icon' ).removeClass( "fa-user-check" ).addClass( "fa-spinner fa-spin" );
+			$( '#submit_btn_icon' ).removeClass( "fa-user-cog" ).addClass( "fa-spinner fa-spin" );
 			$( '#submit_btn_text' ).text( "ユーザーデータ更新中" );
             $.ajax({
                 type: "POST",
@@ -103,25 +103,34 @@
                     new_user_pass_cfm: $( '#new_login_pass_cfm' ).val(),
                     email: $( '#email' ).val()
                 }
-            }).done( function( response ){
-                if( response.error ) {
-                    $( '#error_panel' ).show();
-                    $( '#error_panel' ).html( response.message );
-                }
-                else {
-                    $( '#error_panel' ).hide();
-                    window.location.href = "<?= site_url( "user/manage" ) ?>";
-                }
-            }).fail( function( response ) {
-                $( '#error_panel' ).show();
-                $( '#error_panel' ).html( "エラー: ユーザーデータの更新に失敗しました。" );
-            }).always( function() {
-                $( '#submit_btn_text' ).text( "ユーザーデータ更新" );
-				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-check" );
-				$( '#submit_btn' ).prop( 'disabled', false );
-            });
+            }).done( function( response ) {
+                    if( response.error ) {
+                        $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                        $( '#response_panel' ).html( '<i class="fas fa-times"></i> ' + response.message );
+                        $( '#submit_btn_text' ).text( "ユーザーデータ更新" );
+                        $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-cog" );
+                        $( '#submit_btn' ).prop( 'disabled', false );
+                    }
+                    else {
+                        $( '#response_panel' ).removeClass( 'alert-danger' ).addClass( 'alert-success' );
+                        $( '#response_panel' ).html( '<i class="far fa-circle"></i> ' + response.message );
+                        $( '#submit_btn_text' ).text( "ユーザーデータ更新" );
+                        $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-check" );
+                        window.setTimeout( function() {
+                            window.location.href = "<?= site_url( "user/manage" ) ?>";
+                        }, 1000 );
+                    }
+                }).fail( function( response ) {
+                    $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                    $( '#response_panel' ).html( '<i class="fas fa-times"></i> エラー: ユーザーデータの更新に失敗しました。' );
+                    $( '#submit_btn_text' ).text( "ユーザーデータ更新" );
+                    $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-cog" );
+                    $( '#submit_btn' ).prop( 'disabled', false );
+                }).always( function() {
+                    $( '#response_panel' ).show();
+                });
         });
 
-        $( '#error_panel' ).hide();
+        $( '#response_panel' ).hide();
     });
 </script>

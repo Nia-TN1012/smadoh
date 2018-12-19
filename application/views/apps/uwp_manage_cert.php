@@ -77,6 +77,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+            <div id="response_panel" class="alert alert-success" role="alert"></div>
 			<form id="uploadform">
 				<div class="modal-body">
 					<div class="m-2">
@@ -108,7 +109,9 @@
 </div>
 
 <script>
-	$( document ).ready( function() {		
+	$( document ).ready( function() {
+        $( '#response_panel' ).hide();
+
 		<?php if( UserModel::is_manager() ): ?>
 		$( '#uploadform' ).submit( function( e ) {
             e.preventDefault();
@@ -127,17 +130,31 @@
                 data: formData,
 				processData: false,
 				contentType: false
-            }).done( function( response ){
-                alert( response.message );
-                if( !response.error ) {
-                    window.location.reload( true );
-                }
+            }).done( function( response ) {
+				if( response.error ) {
+					$( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+					$( '#response_panel' ).html( '<i class="fas fa-times"></i> ' + response.message );
+					$( '#upload_btn_text' ).text( "アップロード" );
+					$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-upload" );
+					$( '#upload_btn' ).prop( 'disabled', false );
+				}
+				else {
+					$( '#response_panel' ).removeClass( 'alert-danger' ).addClass( 'alert-success' );
+					$( '#response_panel' ).html( '<i class="far fa-circle"></i> ' + response.message );
+					$( '#upload_btn_text' ).text( "アップロード完了" );
+					$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-check" );
+					window.setTimeout( function() {
+						window.location.reload( true );
+					}, 1000 );
+				}
             }).fail( function( response ) {
-                alert( "エラー: 証明書ファイルのアップロードに失敗しました。" );
-            }).always( function() {
+				$( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+				$( '#response_panel' ).html( '<i class="fas fa-times"></i> エラー: 証明書ファイルのアップロードに失敗しました。' );
 				$( '#upload_btn_text' ).text( "アップロード" );
 				$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-upload" );
 				$( '#upload_btn' ).prop( 'disabled', false );
+			}).always( function() {
+				$( '#response_panel' ).show();
 			});
         });
 

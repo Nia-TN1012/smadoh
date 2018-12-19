@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<div class="container-fluid">
+<div id="content" class="container-fluid">
 	<h1 class="p-2 text-white" style="background-color:#6B8E23"><i class="fab fa-android"></i> <?= $page_title ?></h1>
 	<div class="m-2">
 		<?php if( !is_null( $latest_app_data ) ): ?>
 		<div class="p-3 float-left border rounded shadow-sm">
 			<div class="row">
 				<div class="mx-3 my-2">
-					<h2><i class="far fa-star"></i> 最新のビルド</h2>
+					<h2><i class="far fa-star"></i> 最新のアプリデータ</h2>
 					<div class="p-2">
 						配布ID: #<?= h( $latest_app_data['distrib_id'] ) ?><br/>
 						バージョン: <?= h( $latest_app_data['app_version'] ) ?><br/>
@@ -29,7 +29,7 @@
 		<?php endif ?>
 		<br class="container mt-5" />
 		
-		<h2><i class="fas fa-list"></i> ビルド一覧 <span class="mx-2 px-1 text-white" style="background-color:#6B8E23"><?= $item_num ?></span></h2>
+		<h2><i class="fas fa-list"></i> アプリデータ一覧 <span class="mx-2 px-1 text-white" style="background-color:#6B8E23"><?= $item_num ?></span></h2>
 		<div class="float-right">
 			<?php if( UserModel::is_manager() ): ?>
 			<button type="button" class="m-1 btn btn-primary" data-toggle="modal" data-target="#upload_modal"><i class="fas fa-upload"></i> apkファイルのアップロード</button>
@@ -159,6 +159,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<div id="response_panel" class="alert alert-success" role="alert"></div>
 			<form id="uploadform">
 				<div class="modal-body">
 					<div class="m-2">
@@ -190,6 +191,8 @@
 	}
 
 	$( document ).ready( function() {
+		$( '#response_panel' ).hide();
+
 		$( '#qrcode' ).qrcode( { width: 120, height: 120, text: "<?= site_url( "apps/{$platform}/{$environment}" ) ?>" } );
 		
 		<?php if( UserModel::is_manager() ) { ?>
@@ -210,16 +213,30 @@
 				processData: false,
 				contentType: false,
             }).done( function( response ) {
-				alert( response.message );
-				if( !response.error ) {
-					window.location.reload();
+				if( response.error ) {
+					$( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+					$( '#response_panel' ).html( '<i class="fas fa-times"></i> ' + response.message );
+					$( '#upload_btn_text' ).text( "アップロード" );
+					$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-upload" );
+					$( '#upload_btn' ).prop( 'disabled', false );
+				}
+				else {
+					$( '#response_panel' ).removeClass( 'alert-danger' ).addClass( 'alert-success' );
+					$( '#response_panel' ).html( '<i class="far fa-circle"></i> ' + response.message );
+					$( '#upload_btn_text' ).text( "アップロード完了" );
+					$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-check" );
+					window.setTimeout( function() {
+						window.location.reload( true );
+					}, 1000 );
 				}
             }).fail( function( response ) {
-				alert( "エラー: apkファイルのアップロードに失敗しました。" );
-			}).always( function() {
+				$( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+				$( '#response_panel' ).html( '<i class="fas fa-times"></i> エラー: apkファイルのアップロードに失敗しました。' );
 				$( '#upload_btn_text' ).text( "アップロード" );
 				$( '#upload_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-upload" );
 				$( '#upload_btn' ).prop( 'disabled', false );
+			}).always( function() {
+				$( '#response_panel' ).show();
 			});
         });
 
@@ -227,7 +244,7 @@
             var dstid = $( this ).attr( 'id' ).replace( "delete_apk_", "" );
 			$( this ).prop( 'disabled', true );
 			$( '#delete_icon_' + dstid ).removeClass( "fa-trash-alt" ).addClass( "fa-spinner fa-spin" );
-            if( confirm( "配布ID: #" + dstid + " をビルド一覧から削除してよろしいですか？" ) ) {
+            if( confirm( "配布ID: #" + dstid + " を一覧から削除してよろしいですか？\n（注: 削除したアプリデータは復元できません。）" ) ) {
                 $.ajax({
                     type: "POST",
                     url: "<?= site_url( "apps/{$platform}/{$environment}/app/delete" ) ?>",

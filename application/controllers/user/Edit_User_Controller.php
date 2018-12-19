@@ -69,11 +69,12 @@ class Edit_User_Controller extends MY_Controller {
                     'role' 					=> $_SESSION['login_user_data']['role']
                 ];
                 $this->session->set_userdata( $session_data );
-				$res['error'] = false;
+                $res['error'] = false;
+                $res['message'] = "ユーザーデータを更新しました。";
             }
             else {
                 $res['error'] = true;
-			    $res['message'] = "エラー: ユーザーの更新に失敗しました。";
+			    $res['message'] = "エラー: ユーザーデータの更新に失敗しました。";
             }
         }
         else {

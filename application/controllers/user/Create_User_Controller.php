@@ -51,10 +51,11 @@ class Create_User_Controller extends MY_Controller {
                 ];
                 if( $this->usermodel->add_user( $user_data ) ) {
                     $res['error'] = false;
+                    $res['message'] = "ユーザーを作成しました。";
                 }
                 else {
                     $res['error'] = true;
-                    $res['message'] = "エラー: ユーザーの追加に失敗しました。";
+                    $res['message'] = "エラー: ユーザーの作成に失敗しました。";
                 }
             }
             else {

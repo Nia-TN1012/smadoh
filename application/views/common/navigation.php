@@ -81,7 +81,7 @@
 
                     <li class="nav-item">
                         <?php if( !UserModel::is_login() ): ?>
-                        <button tyep="button" class="btn btn-info" onClick="window.location.href='/login';">ログイン <i class="fas fa-sign-in-alt"></i></button>
+                        <button tyep="button" class="btn btn-primary" onClick="window.location.href='/login';">ログイン <i class="fas fa-sign-in-alt"></i></button>
                         <?php endif ?>
                     </li>
                 </ul>

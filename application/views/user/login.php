@@ -4,14 +4,14 @@
     <h1 class="p-2 text-white" style="background-color:#4B64A1">ログイン</h1>
     <br class="container mt-5" />
 	<div class="p-5 border shadow-sm">
-        <div id="errorpanel" class="alert alert-danger" role="alert">ログインしてください。</div>
+        <div id="response_panel" class="alert alert-success" role="alert"></div>
         <form id="loginform">
             <div class="form-group row">
-                <label for="lonin_user_id" class="col-sm-1 col-form-label">ユーザー名</label>
+                <label for="lonin_user_id" class="col-sm-1 col-form-label"><i class="fas fa-user"></i> ユーザー名</label>
                 <input type="text" class="col-sm-5 form-control" id="login_user_id" name="login_user_id" placeholder="User Name">
             </div>
             <div class="form-group row">
-                <label for="lonin_user_pass" class="col-sm-1 col-form-label">パスワード</label>
+                <label for="lonin_user_pass" class="col-sm-1 col-form-label"><i class="fas fa-key"></i> パスワード</label>
                 <input type="password" class="col-sm-5 form-control" id="login_user_pass" name="login_user_pass" placeholder="Password">
             </div>
 
@@ -24,6 +24,8 @@
 
 <script type="text/javascript">
     $( document).ready( function() {
+        $( '#response_panel' ).hide();
+
         $( '#loginform' ).submit( function( e ) {
             e.preventDefault();
             $( '#submit_btn' ).prop( 'disabled', true );
@@ -39,23 +41,30 @@
                 }
             }).done( function( response ) {
                 if( response.error ) {
-                    $( '#errorpanel' ).show();
-                    $( '#errorpanel' ).html( response.message );
+                    $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                    $( '#response_panel' ).html( '<i class="fas fa-times"></i> ' + response.message );
+                    $( '#submit_btn_text' ).text( "ログイン" );
+                    $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-sign-in-alt" );
+                    $( '#submit_btn' ).prop( 'disabled', false );
                 }
                 else {
-                    $( '#errorpanel' ).hide();
-                    window.location.href = "<?= site_url( @$_GET['redirect'] ?: "" ) ?>";
+                    $( '#response_panel' ).removeClass( 'alert-danger' ).addClass( 'alert-success' );
+                    $( '#response_panel' ).html( '<i class="far fa-circle"></i> ログインしました' );
+                    $( '#submit_btn_text' ).text( 'ログインしました' );
+                    $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-check" );
+                    window.setTimeout( function() {
+                        window.location.href = "<?= site_url( @$_GET['redirect'] ?: "" ) ?>";
+                    }, 1000 );
                 }
             }).fail( function( response ) {
-                $( '#errorpanel' ).show();
-                $( '#errorpanel' ).html( "エラー: ログインに失敗しました。" );
-            }).always( function() {
-				$( '#submit_btn_text' ).text( "ログイン" );
-				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-check" );
+                $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                $( '#response_panel' ).html( "エラー: ログインに失敗しました。" );
+                $( '#submit_btn_text' ).text( "ログイン" );
+				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-sign-in-alt" );
 				$( '#submit_btn' ).prop( 'disabled', false );
+            }).always( function() {
+				$( '#response_panel' ).show();
 			});
         });
-
-        $( '#errorpanel' ).hide();
     });
 </script>

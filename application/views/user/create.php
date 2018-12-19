@@ -7,7 +7,7 @@
         <div class="alert alert-danger" role="alert"><?= $message ?></div>
     <?php else: ?>
         <div class="p-5 border shadow-sm">
-            <div id="error_panel" class="alert alert-danger" role="alert"></div>
+            <div id="response_panel" class="alert alert-success" role="alert"></div>
             <form id="createform">
                 <div class="form-group row">
                     <div class="col-sm-2">
@@ -132,7 +132,7 @@
 
 <script type="text/javascript">
     $( document ).ready( function() {
-        $( '#error_panel' ).hide();
+        $( '#response_panel' ).hide();
         
         $( '#createform' ).submit( function( e ) {
             e.preventDefault();
@@ -153,20 +153,29 @@
                 }
             }).done( function( response ) {
                 if( response.error ) {
-                    $( '#error_panel' ).show();
-                    $( '#error_panel' ).html( response.message );
+                    $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                    $( '#response_panel' ).html( '<i class="fas fa-times"></i> ' + response.message );
+                    $( '#submit_btn_text' ).text( "ユーザー作成" );
+                    $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-plus" );
+                    $( '#submit_btn' ).prop( 'disabled', false );
                 }
                 else {
-                    $( '#error_panel' ).hide();
-                    window.location.href = "<?= site_url( "user/manage" ) ?>";
+                    $( '#response_panel' ).removeClass( 'alert-danger' ).addClass( 'alert-success' );
+                    $( '#response_panel' ).html( '<i class="far fa-circle"></i> ' + response.message );
+                    $( '#submit_btn_text' ).text( "ユーザー作成成功" );
+                    $( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-check" );
+                    window.setTimeout( function() {
+						window.location.href = "<?= site_url( "user/manage" ) ?>";
+					}, 1000 );
                 }
             }).fail( function( response ) {
-                $( '#error_panel' ).show();
-                $( '#error_panel' ).html( "エラー: ユーザーの作成に失敗しました。" );
-            }).always( function() {
+                $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                $( '#response_panel' ).html( '<i class="fas fa-times"></i> エラー: ユーザーの作成に失敗しました。' );
                 $( '#submit_btn_text' ).text( "ユーザー作成" );
 				$( '#submit_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-user-plus" );
 				$( '#submit_btn' ).prop( 'disabled', false );
+            }).always( function() {
+                $( '#response_panel' ).show();
             });
         });
     });
