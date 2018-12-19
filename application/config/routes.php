@@ -53,6 +53,8 @@ $route['default_controller'] = "top";
 $route['404_override'] = 'error_controller/error_404';
 $route['translate_uri_dashes'] = TRUE;
 
+$route['about'] = "top/about";
+
 $route['apps/(ios|android|uwp)/(develop|staging|production)'] = "apps/$1_$2_controller";
 $route['apps/(ios|android|uwp)/(develop|staging|production)/app/(download|upload|delete)'] = "apps/$1_$2_controller/$3_app";
 

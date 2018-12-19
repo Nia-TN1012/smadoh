@@ -27,6 +27,16 @@ class Top extends MY_Controller {
 		$this->load->view( 'top', $data_body );
 		$this->load->view( 'common/footer' );
 	}
+
+	public function about() {
+		$data['page_title'] = "アプリ情報";
+
+		$this->load->view( 'common/header', $data );
+		$this->load->view( 'common/navigation' );
+
+		$this->load->view( 'app_info' );
+		$this->load->view( 'common/footer' );
+	}
 }
 
 ?>
