@@ -60,7 +60,7 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
 			return;
 		}
 
-		$this->redirect_if_not_login( "apps/uwp/manage-certificate" );
+		$this->redirect_if_not_login( "apps/uwp/manage-certificate", true );
 		
 		if( !UserModel::is_manager() ) {
             $res['error'] = true;
@@ -124,7 +124,7 @@ class UWP_Manage_Certificate_Controller extends MY_Controller {
 			return;
 		}
 		
-		$this->redirect_if_not_login( "apps/uwp/manage-certificate" );
+		$this->redirect_if_not_login( "apps/uwp/manage-certificate", true );
 		
 		if( !UserModel::is_manager() ) {
             $res['error'] = true;

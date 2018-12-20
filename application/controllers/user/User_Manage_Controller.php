@@ -60,7 +60,7 @@ class User_Manage_Controller extends MY_Controller {
     }
 
     public function remove() {
-        $this->redirect_if_not_login( "user/manage" );
+        $this->redirect_if_not_login( "user/manage", true );
         
         if( !UserModel::is_admin() ) {
             log_message( 'error', "Permission denied because login user is not admin." );
@@ -92,7 +92,7 @@ class User_Manage_Controller extends MY_Controller {
     }
 
     public function set_role() {
-        $this->redirect_if_not_login( "user/manage" );
+        $this->redirect_if_not_login( "user/manage", true );
         
         if( !UserModel::is_admin() ) {
             log_message( 'error', "Permission denied because login user is not admin." );

@@ -38,9 +38,9 @@
                 <td>
                     <?php if( UserModel::is_admin() && $row['id'] != $_SESSION['login_user_data']['id'] ): ?>
                     <select id="role_select_<?= $row['id'] ?>" name="role_select_<?= $row['id'] ?>" class="form-control form-control-sm">
-                        <option value="1" <?= $row['role'] == UserModel::ROLE_ADMIN ? "selected" : "" ?>>システム管理者</option>
-                        <option value="2" <?= $row['role'] == UserModel::ROLE_MANAGER ? "selected" : "" ?>>アプリ管理者</option>
-                        <option value="3" <?= $row['role'] == UserModel::ROLE_USER ? "selected" : "" ?>>ユーザー</option>
+                        <option value="<?= UserModel::ROLE_ADMIN ?>" <?= $row['role'] == UserModel::ROLE_ADMIN ? "selected" : "" ?>><?= UserModel::get_role_name( UserModel::ROLE_ADMIN ) ?></option>
+                        <option value="<?= UserModel::ROLE_MANAGER ?>" <?= $row['role'] == UserModel::ROLE_MANAGER ? "selected" : "" ?>><?= UserModel::get_role_name( UserModel::ROLE_MANAGER ) ?></option>
+                        <option value="<?= UserModel::ROLE_USER ?>" <?= $row['role'] == UserModel::ROLE_USER ? "selected" : "" ?>><?= UserModel::get_role_name( UserModel::ROLE_USER ) ?></option>
                     </select>
                     <?php else: ?>
                     <?= h( $row['role_name'] ) ?>
@@ -73,7 +73,7 @@
                 <li>他のユーザーを削除する時は、ゴミ箱ボタンを押します。</li>
             </ul>
             <div class="card">
-                <div class="card-header" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
+                <div class="card-header">
                     <i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-shield-alt"></i> 
                     <a class="text-body" href="#collapseRole" role="tab" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
                         ロールの権限範囲

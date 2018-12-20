@@ -9,7 +9,7 @@ class User_Token_Controller extends MY_Controller {
     }
     
     public function index() {
-        $this->redirect_if_not_login( "user/token" );
+        $this->redirect_if_not_login( "user/token", true );
 
         $data['page_title'] = "APIトークン管理";
 
@@ -46,7 +46,7 @@ class User_Token_Controller extends MY_Controller {
     }
 
     public function create_token() {
-        $this->redirect_if_not_login( "user/token" );
+        $this->redirect_if_not_login( "user/token", true );
 
         if( $this->usertokenmodel->can_create_token( $_SESSION['login_user_data']['user_id'] ) ) {
             if( $this->usertokenmodel->create_token( $_SESSION['login_user_data']['user_id'] ) ) {
@@ -68,7 +68,7 @@ class User_Token_Controller extends MY_Controller {
     }
 
     public function delete_token() {
-        $this->redirect_if_not_login( "user/token" );
+        $this->redirect_if_not_login( "user/token", true );
 
         $token = $this->input->post( "token" );
         if( !isset( $token ) || !$this->usertokenmodel->has_token( $token ) ) {

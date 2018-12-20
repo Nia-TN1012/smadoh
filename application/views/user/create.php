@@ -43,9 +43,9 @@
                         <span class="badge badge-warning">選択</span>
                     </div>
                     <select class="col-sm-5 form-control" id="role" name="role">
-                        <option value="1">システム管理者</option>
-                        <option value="2">アプリ管理者</option>
-                        <option value="3">ユーザー</option>
+                        <option value="<?= UserModel::ROLE_ADMIN ?>"><?= UserModel::get_role_name( UserModel::ROLE_ADMIN ) ?></option>
+                        <option value="<?= UserModel::ROLE_MANAGER ?>"><?= UserModel::get_role_name( UserModel::ROLE_MANAGER ) ?></option>
+                        <option value="<?= UserModel::ROLE_USER ?>"><?= UserModel::get_role_name( UserModel::ROLE_USER ) ?></option>
                     </select>
                 </div>
                 <div class="form-group row">
@@ -72,7 +72,7 @@
                     <li>ユーザーIDには、英数字とアンダーバー（_）、ハイフン（-）が利用できます。また、他ユーザーが使用しているユーザーIDは使用できません。</li>
                 </ul>
                 <div class="card">
-                    <div class="card-header" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
+                    <div class="card-header">
                         <i class="fas fa-expand-arrows-alt"></i> <i class="fas fa-shield-alt"></i> 
                         <a class="text-body" href="#collapseRole" role="tab" data-toggle="collapse" data-target="#collapseRole" aria-expanded="false" aria-controls="collapseRole">
                             ロールの権限範囲

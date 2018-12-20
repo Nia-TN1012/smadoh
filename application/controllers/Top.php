@@ -29,6 +29,10 @@ class Top extends MY_Controller {
 	}
 
 	public function about() {
+		$this->redirect_if_not_login( "about", true );
+
+		$this->load->database();
+		
 		$data['page_title'] = "アプリ情報";
 
 		$this->load->view( 'common/header', $data );

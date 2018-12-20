@@ -112,7 +112,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 			return;
 		}
 
-		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/{$app_data['dir_hash']}/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_appx_name' ).".appxbundle" );
+		$filepath = "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/".basename( $app_data['dir_hash'] )."/".basename( $this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_appx_name' ).".appxbundle" );
 		log_message( "debug", $filepath );
 		if( !file_exists( $filepath ) ) {
 			$this->show_error( "appxbundleファイルが見つかりません。", 404, "appxbundleファイルが削除された可能性があります。" );
@@ -169,7 +169,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 			return;
 		}
 
-        $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
+        $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT, true );
         
         if( !UserModel::is_manager() ) {
             $res['error'] = true;
@@ -224,7 +224,7 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 			return;
 		}
 		
-        $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT );
+        $this->redirect_if_not_login( "apps/".static::PLATFORM."/".static::ENVIRONMENT, true );
         
         if( !UserModel::is_manager() ) {
             $res['error'] = true;
@@ -236,7 +236,8 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
             $res['error'] = true;
             $res['message'] = "エラー: 不正なリクエストです。";
         }
-        else if( $this->appdatalist->delete_app_data( static::PLATFORM, static::ENVIRONMENT, $distrib_id ) ) {
+		else if( $this->delete_artifact_file( "uploads/artifacts/".static::PLATFORM."/".static::ENVIRONMENT."/".basename( $app_data['dir_hash'] ) ) &&
+				$this->appdatalist->delete_app_data( static::PLATFORM, static::ENVIRONMENT, $distrib_id ) ) {
 			$this->feedmodel->add_feed( static::PLATFORM.'_'.static::ENVIRONMENT.'_name', $_SESSION['login_user_data']['display_user_name']." さんが、".$this->config->item( static::PLATFORM.'_'.static::ENVIRONMENT.'_name' )." #{$distrib_id} を削除しました。" );
             $res['error'] = false;
             $res['message'] = "配布ID: #{$distrib_id} を削除しました。";
@@ -248,5 +249,22 @@ class UWPAppListBase_Controller extends AppListBase_Controller {
 
         $this->output->set_content_type( "application/json" )
 					->set_output( json_encode( $res ) );
+	}
+
+	/**
+	 * 指定したアプリパッケージのフォルダーを丸ごと削除します。
+	 */
+	private function delete_artifact_file( $artifact_path ) {
+		if( file_exists( $artifact_path ) ) {
+			$dir = $artifact_path;
+			$paths = array();
+			while ( $glob = glob( $dir ) ) {
+				$paths = array_merge( $glob, $paths );
+				$dir .= '/*';
+			}
+			array_map( 'unlink', array_filter( $paths, 'is_file' ) );
+			array_map( 'rmdir',  array_filter( $paths, 'is_dir') );
+		}
+		return true;
 	}
 }

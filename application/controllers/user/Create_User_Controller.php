@@ -8,7 +8,7 @@ class Create_User_Controller extends MY_Controller {
 	}
 
     public function index() {
-        $this->redirect_if_not_login( "user/manage" );
+        $this->redirect_if_not_login( "user/manage", true );
 
         if( !UserModel::is_admin() ) {
             $data_body['error'] = true;
@@ -27,7 +27,7 @@ class Create_User_Controller extends MY_Controller {
     }
 
     public function create() {
-        $this->redirect_if_not_login( "user/manage" );
+        $this->redirect_if_not_login( "user/manage", true );
 
         if( !UserModel::is_admin() ) {
             $res['error'] = true;
@@ -69,7 +69,7 @@ class Create_User_Controller extends MY_Controller {
     }
 
     // フォームバリデーション: ユーザーIDの重複チェック
-    public function user_id_check( $user_id ) {
+    public function _user_id_check( $user_id ) {
         if( !is_null( $this->usermodel->get_user_data_by_user_id( $user_id ) ) ) {
             $this->form_validation->set_message( 'username_check', "ユーザーID '{$user_id}' は、すでに使用されています。別のユーザーIDを入力してください。");
             return false;
@@ -80,7 +80,7 @@ class Create_User_Controller extends MY_Controller {
     }
 
     // フォームバリデーション: ロールのチェック
-    public function role_check( $role ) {
+    public function _role_check( $role ) {
         if( $role == UserModel::ROLE_ADMIN || $role == UserModel::ROLE_MANAGER || $role == UserModel::ROLE_USER ) {
             return true;
         }

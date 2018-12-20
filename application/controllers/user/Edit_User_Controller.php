@@ -8,7 +8,7 @@ class Edit_User_Controller extends MY_Controller {
     }
     
     public function index() {
-        $this->redirect_if_not_login( "user/edit" );
+        $this->redirect_if_not_login( "user/edit", true );
 
         $data['page_title'] = "ユーザー設定";
 
@@ -30,7 +30,7 @@ class Edit_User_Controller extends MY_Controller {
 
     // ユーザー設定を更新します。
     public function update() {
-        $this->redirect_if_not_login( "user/edit" );
+        $this->redirect_if_not_login( "user/edit", true );
 
         // バリデーションを実行します。
         $this->load->library( 'form_validation' );

@@ -12,15 +12,26 @@ class MY_Controller extends CI_Controller {
 	/**
 	 * ログインしていない場合、リダイレクトURLを設定したログインページにリダイレクトします。
 	 */
-	protected function redirect_if_not_login( $redirect_to = "" ) {
+	protected function redirect_if_not_login( $redirect_to = "", $is_strict = false ) {
 		if( !UserModel::is_login() ) {
-			if( !empty( $redirect_to ) ) {
-				redirect( "/login?redirect={$redirect_to}" );
-			}
-			else {
-				redirect( "/login" );
-			}
-        }
+			$this->redirect_to_login( $redirect_to );
+		}
+		if( $is_strict && is_null( $this->usermodel->get_user_data( $_SESSION['login_user_data']['id'] ) ) ) {
+			unset( $_SESSION['login_user_data'] );
+			$this->redirect_to_login( $redirect_to );
+		}
+	}
+
+	/**
+	 * ログインページにリダイレクトします。
+	 */
+	protected function redirect_to_login( $redirect_to = "" ) {
+		if( !empty( $redirect_to ) ) {
+			redirect( "/login?redirect={$redirect_to}" );
+		}
+		else {
+			redirect( "/login" );
+		}
 	}
 
 	/**

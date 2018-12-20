@@ -6,9 +6,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class UserModel extends CI_Model {
 
-	const ROLE_ADMIN 	= 1;	// システム管理者
-	const ROLE_MANAGER	= 2;	// アプリ管理者
-	const ROLE_USER		= 3;	// ユーザー
+	const ROLE_ADMIN 	= 7;	// システム管理者
+	const ROLE_MANAGER	= 3;	// アプリ管理者
+	const ROLE_USER		= 1;	// ユーザー
 
 	function __construct() {
         parent::__construct();
@@ -33,7 +33,7 @@ class UserModel extends CI_Model {
 	 * アプリ管理者以上としてログインしているかどうかを判別します。
 	 */
     public static function is_manager() {
-        return isset( $_SESSION['login_user_data']['role'] ) && $_SESSION['login_user_data']['role'] <= static::ROLE_MANAGER;
+        return isset( $_SESSION['login_user_data']['role'] ) && $_SESSION['login_user_data']['role'] >= static::ROLE_MANAGER;
     }
 
 	/**

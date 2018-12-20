@@ -64,9 +64,6 @@
                 </ul>
                 <?php if( strpos( $_SERVER['REQUEST_URI'], "/login" ) !== 0 ): ?>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about"> <i class="fas fa-info-circle"></i> </a>
-                    </li>
                     <?php if( UserModel::is_login() ): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
