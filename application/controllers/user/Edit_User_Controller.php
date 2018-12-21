@@ -35,7 +35,7 @@ class Edit_User_Controller extends MY_Controller {
         // バリデーションを実行します。
         $this->load->library( 'form_validation' );
         // ユーザーID: 入力必須、使用できない文字を含んでいない、他ユーザーIDと重複しない
-        $this->form_validation->set_rules( 'user_id', 'ユーザーID', 'required|regex_match[/^[\w\-]*$/]|callback_user_id_check', array( 'required' => "%s は必須項目です。", 'regex_match' => "ユーザーIDに使用できない文字が含まれています。" ) );
+        $this->form_validation->set_rules( 'user_id', 'ユーザーID', 'required|regex_match[/^[\w\-]*$/]|callback__user_id_check', array( 'required' => "%s は必須項目です。", 'regex_match' => "ユーザーIDに使用できない文字が含まれています。" ) );
         // 名前: 入力必須
         $this->form_validation->set_rules( 'display_user_name', '名前', 'required', array( 'required' => "%s は必須項目です。" ) );
         // パスワード:
@@ -45,7 +45,7 @@ class Edit_User_Controller extends MY_Controller {
         //          新しいパスワード（確認）: 入力必須、新しいパスワードと一致している
         $is_change_password = !empty( $this->input->post( "old_user_pass" ) );
         if( $is_change_password ) {
-            $this->form_validation->set_rules( 'old_user_pass', '現在のパスワード', 'callback_pass_check['.$this->input->post( "new_user_pass" ).']' );
+            $this->form_validation->set_rules( 'old_user_pass', '現在のパスワード', 'callback__pass_check['.$this->input->post( "new_user_pass" ).']' );
             $this->form_validation->set_rules( 'new_user_pass', '新しいパスワード', 'required', array( 'required' => "%s は必須項目です。" ) );
             $this->form_validation->set_rules( 'new_user_pass_cfm', 'パスワード確認', 'required|matches[new_user_pass]', array( 'required' => "%s は必須項目です。", 'matches' => "パスワードが一致しません。" ) );
         }
@@ -87,7 +87,7 @@ class Edit_User_Controller extends MY_Controller {
     }
 
     // フォームバリテーション: ユーザーIDの重複チェック
-    public function user_id_check( $user_id ) {
+    public function _user_id_check( $user_id ) {
         $user_data = $this->usermodel->get_user_data_by_user_id( $user_id );
         if( !is_null( $user_data ) && $user_data['id'] != $_SESSION['login_user_data']['id'] ) {
             $this->form_validation->set_message( 'user_id_check', "ユーザーID: {$user_id} は、他のユーザーで使用されています。別のユーザーIDを入力してください。");
@@ -99,7 +99,7 @@ class Edit_User_Controller extends MY_Controller {
     }
 
     // フォームバリテーション: 現在のパスワードと新しいパスワードが異なるかどうかチェック
-    public function pass_check( $old_user_pass, $new_user_pass ) {
+    public function _pass_check( $old_user_pass, $new_user_pass ) {
         if( $this->usermodel->get_login( $_SESSION['login_user_data']['user_id'], $old_user_pass ) <= 0 ) {
             $this->form_validation->set_message( 'pass_check', "現在のパスワードが間違っています。" );
             return false;

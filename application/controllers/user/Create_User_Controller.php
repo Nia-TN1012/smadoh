@@ -35,11 +35,11 @@ class Create_User_Controller extends MY_Controller {
         }
         else {
             $this->load->library( 'form_validation' );
-            $this->form_validation->set_rules( 'user_id', 'ユーザーID', 'required|regex_match[/^[\w\-]*$/]|callback_user_id_check', array( 'required' => "%s は必須項目です。", 'regex_match' => "ユーザーIDに使用できない文字が含まれています。" ) );
+            $this->form_validation->set_rules( 'user_id', 'ユーザーID', 'required|regex_match[/^[\w\-]*$/]|callback__user_id_check', array( 'required' => "%s は必須項目です。", 'regex_match' => "ユーザーIDに使用できない文字が含まれています。" ) );
             $this->form_validation->set_rules( 'display_user_name', '名前', 'required', array( 'required' => "%s は必須項目です。" ) );
             $this->form_validation->set_rules( 'user_pass', 'パスワード', 'required', array( 'required' => "%s は必須項目です。" ) );
             $this->form_validation->set_rules( 'user_pass_cfm', 'パスワード確認', 'required|matches[user_pass]', array( 'required' => "%s は必須項目です。", 'matches' => "パスワードが一致しません。" ) );
-            $this->form_validation->set_rules( 'role', 'ロール', 'callback_role_check' );
+            $this->form_validation->set_rules( 'role', 'ロール', 'callback__role_check' );
 
             if( $this->form_validation->run() ) {
                 $user_data = [
