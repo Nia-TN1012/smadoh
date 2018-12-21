@@ -6,20 +6,29 @@
 	<div class="p-5 border shadow-sm">
         <div id="response_panel" class="alert alert-success" role="alert"></div>
         <form id="loginform">
-            <div class="form-group row">
-                <label for="lonin_user_id" class="col-sm-1 col-form-label"><i class="fas fa-user"></i> ユーザー名</label>
-                <input type="text" class="col-sm-5 form-control" id="login_user_id" name="login_user_id" placeholder="User Name">
+            <div class="form-group">
+                <label for="lonin_user_id" class="form-label"><i class="fas fa-user"></i> ユーザー名</label>
+                <input type="text" class="col-lg-5 form-control" id="login_user_id" name="login_user_id" placeholder="User Name">
             </div>
-            <div class="form-group row">
-                <label for="lonin_user_pass" class="col-sm-1 col-form-label"><i class="fas fa-key"></i> パスワード</label>
-                <input type="password" class="col-sm-5 form-control" id="login_user_pass" name="login_user_pass" placeholder="Password">
+            <div class="form-group">
+                <label for="lonin_user_pass" class="form-label"><i class="fas fa-key"></i> パスワード</label>
+                <input type="password" class="col-lg-5 form-control" id="login_user_pass" name="login_user_pass" placeholder="Password" aria-describedby="passwordHelpInline">
             </div>
-
+            <br class="container mt-5" />
             <div>
                 <button type="submit" id="submit_btn" class="btn btn-primary"><span id="submit_btn_text">ログイン</span> <i id="submit_btn_icon" class="fas fa-sign-in-alt"></i></button>
             </div>
         </form>
 	</div>
+    <br class="container mt-5" />
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <i class="fas fa-question-circle"></i> ログインできない時は？
+        </div>
+        <div class="card-body">
+            <a href="/user/resetpass/request">パスワードリセット</a>のページより、パスワードリセットの手続きを行います。
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">

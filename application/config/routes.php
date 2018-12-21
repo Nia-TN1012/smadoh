@@ -78,6 +78,11 @@ $route['user/token'] = "user/user_token_controller";
 $route['user/token/create'] = "user/user_token_controller/create_token";
 $route['user/token/delete'] = "user/user_token_controller/delete_token";
 
+$route['user/resetpass/request'] = "user/password_reset_controller";
+$route['user/resetpass/request/send'] = "user/password_reset_controller/send";
+$route['user/resetpass/confirm'] = "user/password_reset_controller/confirm";
+$route['user/resetpass/confirm/reset'] = "user/password_reset_controller/reset_password";
+
 // REST API
 $route['api/v1/user/info']['GET'] = "rest/rest_user_controller/info";
 $route['api/v1/user/list']['GET'] = "rest/rest_user_controller/list";
