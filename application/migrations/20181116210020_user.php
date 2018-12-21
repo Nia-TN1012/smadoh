@@ -59,7 +59,7 @@ class Migration_User extends CI_Migration {
             'display_user_name'     => "Admin",
             'email'                 => "",
             'password'              => password_hash( "0000", PASSWORD_BCRYPT ),
-            'role'                  => 1,
+            'role'                  => 7,
             'register_time'         => $gen_date,
             'update_time'           => $gen_date
         ];
