@@ -32,12 +32,12 @@ class Migration_User extends CI_Migration {
                 'type' => "VARCHAR",
                 'constraint' => 255
             ],
-            // 権限（ 1: システム管理者, 2: アプリ管理者, 3: ユーザー ）
+            // 権限（ 7: システム管理者, 3: アプリ管理者, 1: ユーザー ）
             'role' => [
                 'type' => "INT",
-                'constraint' => 1,
+                'constraint' => 10,
                 'unsigned' => TRUE,
-                'default' => 1
+                'default' => 7
             ],
             // 登録日時
             'register_time' => [
