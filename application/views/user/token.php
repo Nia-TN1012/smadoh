@@ -4,6 +4,7 @@
 	<h1 class="p-2" style="background-color:#4B64A1;color:#fff"><i class="fas fa-code"></i> APIトークン管理</h1>
     <br class="container mt-5" />
     <h2><i class="fas fa-list"></i> APIトークン一覧</h2>
+    <div id="response_panel" class="alert alert-success" role="alert"></div>
     <div class="float-right">
         <button type="button" class="m-1 btn btn-primary" id="create_token"><i id="create_token_btn_icon" class="fas fa-plus"></i> <span id="create_token_btn_text">新しいAPIトークン発行<span></button>
     </div>
@@ -405,6 +406,8 @@
 
 <script type="text/javascript">
     $( document).ready( function() {
+        $( '#response_panel' ).hide();
+
         $( '#create_token' ).on( 'click', function() {
             $( '#create_token' ).prop( 'disabled', true );
 			$( '#create_token_btn_icon' ).removeClass( "fa-plus" ).addClass( "fa-spinner fa-spin" );
@@ -414,14 +417,23 @@
                 url: "<?= site_url( "user/token/create" ) ?>",
                 dataType: "json"
             }).done( function( response ){
-                alert( response.message );
-                if( !response.error ) {
-                    window.location.reload( true );
+                if( response.error ) {
+                    $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                    $( '#response_panel' ).html( '<i class="fas fa-times"></i> ' + response.message );
+                }
+                else {
+                    $( '#response_panel' ).removeClass( 'alert-danger' ).addClass( 'alert-success' );
+                    $( '#response_panel' ).html( '<i class="far fa-circle"></i> ' + response.message );
+                    window.setTimeout( function() {
+                        window.location.reload( true );
+                    }, 1000 );
                 }
             }).fail( function( response ) {
-				alert( "エラー: 新しいトークンの作成に失敗しました。" );
+                $( '#response_panel' ).removeClass( 'alert-success' ).addClass( 'alert-danger' );
+                $( '#response_panel' ).html( '<i class="fas fa-times"></i> エラー: 新しいトークンの発行に失敗しました。' );
             }).always( function() {
-                $( '#create_token_btn_text' ).text( "新しいトークン作成" );
+                $( '#response_panel' ).show();
+                $( '#create_token_btn_text' ).text( "新しいAPIトークン発行" );
 				$( '#create_token_btn_icon' ).removeClass( "fa-spinner fa-spin" ).addClass( "fa-plus" );
 				$( '#create_token' ).prop( 'disabled', false );
             });

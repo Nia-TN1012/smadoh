@@ -51,11 +51,11 @@ class User_Token_Controller extends MY_Controller {
         if( $this->usertokenmodel->can_create_token( $_SESSION['login_user_data']['user_id'] ) ) {
             if( $this->usertokenmodel->create_token( $_SESSION['login_user_data']['user_id'] ) ) {
                 $res['error'] = false;
-                $res['message'] = "APIトークンを作成しました。";
+                $res['message'] = "APIトークンを発行しました。";
             }
             else {
                 $res['error'] = true;
-                $res['message'] = "エラー: APIトークンの生成に失敗しました。";
+                $res['message'] = "エラー: APIトークンの発行に失敗しました。";
             }
         }
         else {
